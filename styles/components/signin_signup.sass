@@ -1,0 +1,132 @@
+body
+  padding: 0
+  margin: 0
+.bc-background
+  height: 100vh
+  width: 100vw
+  color: white
+.bc-background-overlay
+  display: flex
+  justify-content: center
+  align-items: center
+  top: 0
+  position: absolute
+  height: 100vh
+  width: 100vw
+  background-color: rgba(0,0,0,0.5)
+  .bc-auth-container
+    display: flex
+    flex-direction: column
+    width: 400px
+    height: 533px
+    border-radius: 8px
+    box-shadow: 0 3px 20px rgba(0,0,0,0.7)
+    background-color: white
+    font-family: "Fira sans"
+    .bc-logo
+      width: 90px
+      height: 90px
+      margin-top: 10px
+      margin-left: auto
+      margin-right: auto
+      background:
+        image: url("../src/assets/minion_coffee.jpg")
+        size: contain
+    .bc-auth-header
+      text-align: center
+      margin-top: 10px
+      font-size: 30px
+      // font-family: "Fira sans"
+      font-weight: bold
+      margin-bottom: 20px
+    .bc-form-container
+      width: 100%
+      height: auto
+      display: flex
+      flex-direction: column
+      justify-content: center
+      align-items: center
+
+      .bc-input-style
+        border: 0
+        margin: 0
+        padding: 0
+        position: relative
+        input
+          border-radius: 3px
+          padding-left: 5px
+          height: 36px
+          width: 280px
+          background: none
+          border: none
+          color: #545454
+          background-color: #f0f0f0
+          font-size: 0.9em
+          &:focus
+            outline: none
+      button
+        display: flex
+        align-items: center
+        justify-content: center
+        height: 36px
+        width: 285px
+        font-size: 15px
+        font-weight: bold
+        border-radius: 4px
+        background-color: #bd081c
+        border: none
+        color: #fff
+        cursor: pointer
+        outline: none
+        transition: all 0.3s
+        &:active
+          letter-spacing: 0.1em
+          outline: none
+      .bc-or-text
+        margin-top: 10px
+        margin-bottom: 10px
+      .bc-twitter-auth
+        display: flex
+        justify-content: space-between
+        align-items: center
+        height: 40px
+        width: 285px
+        color: white
+        border-radius: 3px
+        background-color: #4285f4
+        cursor: pointer
+        i
+          font-size: 2.3em
+          margin-left: 4px
+        div
+          transform: translateX(-70px)
+      .bc-auth-signup-txt
+        font-size: 0.75em
+        color: #a6a6a6
+        .bc-auth-signup-lnk
+          font-size: 1em
+          cursor: pointer
+          color: #bd081c
+          margin-left: 5px
+          text-decoration: underline
+
+.bc-input-error
+  position: absolute
+  font-family: sans-serif
+  transform: translate(3px, 30px)
+  font-size: 0.65em
+  color: red
+.bc-input-valid
+  position: absolute
+  transform: translate(300px, 5px)
+  color: #77ff6b
+.bc-input-invalid
+  position: absolute
+  transform: translate(300px, 5px)
+  color: red
+.bc-auth-error
+  position: absolute
+  font-family: monospace
+  transform: translateX(30px)
+  font-size: 0.9em
+  color: red
