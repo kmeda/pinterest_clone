@@ -81,7 +81,7 @@ class SignIn extends Component {
   render(){
 
   var base_url = process.env.NODE_ENV === 'production' 
-                  ? 'https://fcc-minterest.herokuapp.com/'
+                  ? 'https://fcc-minterest.herokuapp.com'
                   : 'http://localhost:3050';
 
     return (

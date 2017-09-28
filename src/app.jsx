@@ -22,7 +22,7 @@ import { ConnectedRouter, routerReducer, routerMiddleware, push } from 'react-ro
 import openSocket from 'socket.io-client';
 
 if (process.env.NODE_ENV === 'production') {
-  var socket_url = 'INSERT_URL_HERE';
+  var socket_url = 'https://fcc-minterest.herokuapp.com';
 } else {
   var socket_url = 'http://localhost:3050';
 }
