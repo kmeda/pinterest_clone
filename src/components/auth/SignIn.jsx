@@ -67,7 +67,7 @@ class SignIn extends Component {
   onSuccess = (response) => {
     var {dispatch} = this.props;
     const token = response.headers.get('x-auth-token');
-    console.log(token);
+    console.log(response);
     response.json().then(user => {
       if (token) {
         dispatch(actions.setAuthenticated(true));
