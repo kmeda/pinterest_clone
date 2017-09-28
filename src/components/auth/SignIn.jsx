@@ -68,6 +68,8 @@ class SignIn extends Component {
     const token = response.headers.get('x-auth-token');
     response.json().then(user => {
       if (token) {
+        dispatch(actions.setAuthenticated(true));
+        localStorage.setItem({token});
         this.setState({isAuthenticated: true, user: user, token: token});
       }
     });
