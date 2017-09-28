@@ -4,7 +4,10 @@ const JwtStrategy = require('passport-jwt').Strategy;
 const ExtractJwt = require('passport-jwt').ExtractJwt;
 const LocalStrategy = require('passport-local');
 const TwitterTokenStrategy = require('passport-twitter-token');
-const config = require('../config');
+
+if(!(process.env.NODE_ENV === "production")){
+  const config = require('../config');
+}
 
 
 const secret = process.env.SECRET || config.secret;
