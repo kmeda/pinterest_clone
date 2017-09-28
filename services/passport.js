@@ -5,14 +5,18 @@ const ExtractJwt = require('passport-jwt').ExtractJwt;
 const LocalStrategy = require('passport-local');
 const TwitterTokenStrategy = require('passport-twitter-token');
 
-if(!(process.env.NODE_ENV === "production")){
+if(process.env.NODE_ENV === "production"){
+  var TWITTER_CONSUMER_KEY = process.env.TWITTER_CONSUMER_KEY;
+  var TWITTER_CONSUMER_SECRET = process.env.TWITTER_CONSUMER_SECRET;
+  var secret = process.env.SECRET;
+} else {
   const config = require('../config');
+
+  var secret = config.secret;
+  var TWITTER_CONSUMER_KEY = config.twitterConsumerKey;
+  var TWITTER_CONSUMER_SECRET = config.twitterConsumerSecret;
 }
 
-
-const secret = process.env.SECRET || config.secret;
-var TWITTER_CONSUMER_KEY = process.env.TWITTER_CONSUMER_KEY || config.twitterConsumerKey;
-var TWITTER_CONSUMER_SECRET = process.env.TWITTER_CONSUMER_SECRET || config.twitterConsumerSecret;
 
 //Local Strategy
 const localOptions = { usernameField: 'email'};

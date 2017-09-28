@@ -7,6 +7,7 @@ import RequireAuth from './components/auth/require_auth.jsx';
 import SignIn from './components/auth/SignIn.jsx';
 import SignUp from './components/auth/SignUp.jsx';
 import Home from './components/app/Home.jsx';
+import AllMints from './components/app/AllMints.jsx';
 
 import * as actions from './actions/actions.js';
 
@@ -60,7 +61,8 @@ ReactDOM.render(
     <Provider store={store}>
       <Router history={history}>
         <Switch>
-          <Route exact path="/" component={RequireAuth(Home)}/>
+        <Route exact path="/" component={AllMints}/>
+          <Route exact path="/home" component={RequireAuth(Home)}/>
           <Route exact path="/signup" component={SignUp}/>
           <Route exact path="/signin" component={SignIn}/>
           <Route render={()=> <h1>Page not found.</h1>}/>

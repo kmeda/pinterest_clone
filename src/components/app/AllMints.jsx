@@ -1,12 +1,12 @@
-import React,{Component} from 'react';
 import MenuBar from './MenuBar.jsx';
+import React,{Component} from 'react';
 import * as Redux from "react-redux";
 import TimeAgo from 'react-timeago';
 
 
 var actions = require('../../actions/actions.js');
 
-class Home extends Component {
+class AllMints extends Component {
   constructor(props){
     super(props);
 
@@ -32,7 +32,7 @@ class Home extends Component {
       <div className="bc-outer-wrapper">
         <MenuBar/>
         <div className="bc-books-container">
-          <div className="bc-books-requests-header">My Mints Go Here...</div>
+          <div className="bc-books-requests-header">All Mints Go Here...</div>
 
         </div>
       </div>
@@ -46,4 +46,4 @@ export default Redux.connect(
       books: state.books
     }
   }
-)(Home);
+)(AllMints);

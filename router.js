@@ -81,7 +81,6 @@ module.exports = function(app) {
         id: req.user.id
       };
 
-      console.log(req.user);
       return next();
 }, Authentication.generateToken, Authentication.sendToken);
 

@@ -20,7 +20,7 @@ class MenuBar extends Component {
     }
   }
 
-  componentDidMount(){
+  componentWillUnmount(){
     var {dispatch, settings} = this.props;
     if (settings.showSettings) {
       dispatch(actions.showSettings(false));
@@ -53,13 +53,24 @@ class MenuBar extends Component {
     localStorage.removeItem('token');
     localStorage.removeItem('email');
     dispatch(actions.nukeAuthData());
-    dispatch(push('/signin'));
+    dispatch(push('/'));
   }
 
   render(){
 
     if (!this.props.auth.user) {
-      return <div>Loading....</div>
+      return (
+      <div>
+          <div className="bc-menu-bar">
+            <div className="logo-container">
+              <a href='https://www.freecodecamp.org/challenges/build-a-pinterest-clone' target="_blank"><img className="bc-fcclogo"/></a>
+            </div>
+          <div className="links-container">
+          <Link to='/home'><div className={this.props.allBooksActive + " bc-allbooks"}>Login</div></Link>
+          </div>
+        </div>
+      </div>
+    )
     }
 
     var renderSettingsBox = () => {
@@ -86,24 +97,30 @@ class MenuBar extends Component {
     return (
       <div>
           <div className="bc-menu-bar">
+            <div className="logo-container">
+                <a href='https://www.freecodecamp.org/challenges/build-a-pinterest-clone' target="_blank"><img className="bc-fcclogo"/></a>
+              </div>
+            <div className="links-container">
+            <Link to='/'><div className={this.props.myBooksActive + " bc-allbooks"}>Home</div></Link>
 
-          <a href='https://www.freecodecamp.org/challenges/manage-a-book-trading-club' target="_blank"><div className="bc-fcclogo"></div></a>
-          <Link to='/'><div className={this.props.myBooksActive + " bc-mybooks"}>Home</div></Link>
-          <Link to='/myprofile'><div className={this.props.allBooksActive + " bc-allbooks"}>Profile</div></Link>
+            <div className="bc-profile">
+              {(Object.keys(this.props.auth.user)).length <= 1 ? null : this.props.auth.user.firstName }
+            </div>
 
-          <div className="bc-profile">
-            {(Object.keys(this.props.auth.user)).length <= 1 ? null : this.props.auth.user.firstName + " " + this.props.auth.user.lastName}
-          </div>
+            <div className={this.props.settings.showSettings ? "bc-settings bc-settings-clicked" : "bc-settings" }
+                onClick={this.showSettings.bind(this)}>
+              <i className="fa fa-cog" aria-hidden="true" >
+                {(Object.keys(this.props.auth.user)).length <= 1 ? <div className="bc-settings-alert"><i className="fa fa-exclamation" aria-hidden="true"></i></div> : null }
+              </i>
+            </div>
+            {this.props.settings.showSettings ? renderSettingsBox() : null}
 
-          <div className={this.props.settings.showSettings ? "bc-settings bc-settings-clicked" : "bc-settings" }
-               onClick={this.showSettings.bind(this)}>
-            <i className="fa fa-cog" aria-hidden="true" >
-              {(Object.keys(this.props.auth.user)).length <= 1 ? <div className="bc-settings-alert"><i className="fa fa-exclamation" aria-hidden="true"></i></div> : null }
-            </i>
-          </div>
-          {this.props.settings.showSettings ? renderSettingsBox() : null}
+            <div className="bc-signout"><i className="bc-animate-logout fa fa-sign-out" aria-hidden="true" onClick={this.signOutUser.bind(this)}></i></div>
+            </div>
+          
+          
+          
 
-          <div className="bc-signout"><i className="bc-animate-logout fa fa-sign-out" aria-hidden="true" onClick={this.signOutUser.bind(this)}></i></div>
         </div>
       </div>
     )
