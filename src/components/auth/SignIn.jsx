@@ -72,7 +72,7 @@ class SignIn extends Component {
       if (token) {
         dispatch(actions.setAuthenticated(true));
         localStorage.setItem('token', token);
-        this.setState({isAuthenticated: true, user: user, token: token});
+        dispatch(push('/'));
       }
     });
   };
