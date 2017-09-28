@@ -6,10 +6,15 @@ const Authentication = require("./controllers/authentication");
 const updateUser = require("./controllers/updateUser");
 const passport = require('passport');
 const passportService = require('./services/passport');
-const config = require('./config');
 
-var TWITTER_CONSUMER_KEY = process.env.TWITTER_CONSUMER_KEY || config.twitterConsumerKey;
-var TWITTER_CONSUMER_SECRET = process.env.TWITTER_CONSUMER_SECRET || config.twitterConsumerSecret;
+if(process.env.NODE_ENV === "production"){
+  var TWITTER_CONSUMER_KEY = process.env.TWITTER_CONSUMER_KEY;
+  var TWITTER_CONSUMER_SECRET = process.env.TWITTER_CONSUMER_SECRET;
+} else {
+  const config = require('./config');
+  var TWITTER_CONSUMER_KEY = config.twitterConsumerKey;
+  var TWITTER_CONSUMER_SECRET = config.twitterConsumerSecret;
+}
 
 const requireAuth = passport.authenticate('jwt', {session: false});
 const requireSignin = passport.authenticate('local', {session: false});

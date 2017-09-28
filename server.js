@@ -24,7 +24,7 @@ if (process.env.NODE_ENV === "production") {
 app.use(session({
   resave: false,
   saveUninitialized: true,
-  secret: secret 
+  secret: process.env.SECRET || secret 
 }));
 
 var io = require('socket.io').listen(app.listen(PORT));
