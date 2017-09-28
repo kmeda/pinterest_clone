@@ -72,6 +72,7 @@ class SignIn extends Component {
       if (token) {
         dispatch(actions.setAuthenticated(true));
         localStorage.setItem('token', token);
+        localStorage.setItem('email', user.email || '');
         dispatch(push('/'));
       }
     });
