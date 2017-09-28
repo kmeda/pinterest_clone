@@ -71,7 +71,7 @@ class SignIn extends Component {
     response.json().then(user => {
       if (token) {
         dispatch(actions.setAuthenticated(true));
-        localStorage.setItem({token});
+        localStorage.setItem('token', token);
         this.setState({isAuthenticated: true, user: user, token: token});
       }
     });
