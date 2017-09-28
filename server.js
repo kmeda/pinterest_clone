@@ -6,6 +6,8 @@ const morgan = require("morgan");
 const cors = require("cors");
 const axios = require("axios");
 const favicon = require('serve-favicon');
+const session = require('express-session');
+const passport = require('passport');
 var Router = require("./router.js");
 
 const app = express();
@@ -16,7 +18,14 @@ if (process.env.NODE_ENV === "production") {
 } else {
   const config = require('./config');
   var mongodbURI = config.mongodbURI;
+  var secret = config.secret;
 }
+
+app.use(session({
+  resave: false,
+  saveUninitialized: true,
+  secret: secret 
+}));
 
 var io = require('socket.io').listen(app.listen(PORT));
 
@@ -28,6 +37,8 @@ app.use(bodyParser.json({type: '*/*'}));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(favicon(path.join(__dirname + '/favicon.ico')));
 app.use(express.static('dist'));
+app.use(passport.initialize());
+app.use(passport.session());
 
 io.sockets.on('connection', function (socket) {
 

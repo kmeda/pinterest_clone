@@ -5,7 +5,7 @@ import _ from "lodash";
 import socket from '../app.jsx';
 
 if (process.env.NODE_ENV === 'production') {
-  var base_url = 'INSERT_URL_HERE';
+  var base_url = 'https://fcc-minterest.herokuapp.com/';
 } else {
   var base_url = 'http://localhost:3050';
 }

@@ -2,12 +2,17 @@ import React,{Component} from 'react';
 import {BrowserRouter as Router, Route, Switch, Link, withRouter} from 'react-router-dom';
 import * as Redux from "react-redux";
 import { push } from 'react-router-redux';
+import axios from 'axios';
+
+import TwitterLogin from 'react-twitter-auth';
 
 var actions = require('../../actions/actions.js');
 
 class SignIn extends Component {
   constructor(props){
     super(props);
+
+    this.state = { isAuthenticated: false, user: null, token: ''};
   }
 
   componentWillMount(){
@@ -59,8 +64,25 @@ class SignIn extends Component {
   }
 
 
+  onSuccess = (response) => {
+    const token = response.headers.get('x-auth-token');
+    response.json().then(user => {
+      if (token) {
+        this.setState({isAuthenticated: true, user: user, token: token});
+      }
+    });
+  };
+  
+  onFailed = (error) => {
+    alert(error);
+  };
+  
 
   render(){
+
+  var base_url = process.env.NODE_ENV === 'production' 
+                  ? 'https://fcc-minterest.herokuapp.com/'
+                  : 'http://localhost:3050';
 
     return (
       <div>
@@ -97,14 +119,16 @@ class SignIn extends Component {
 
               <div className="bc-or-text">OR</div>
 
-              { this.props.auth.signingIn
+              { this.props.auth.twitterSignIn
                 ? <div className="bc-twitter-auth">
                   <i className="fa fa-twitter-square" aria-hidden="true"></i>
                   <div><i className="fa fa-spinner fa-pulse"></i></div>
                 </div>
-                : <div className="bc-twitter-auth" onClick={this.handleSignIn.bind(this)}>
-                  <i className="fa fa-twitter-square" aria-hidden="true"></i>
-                  <div >Sign In with Twitter</div>
+                : <div>
+                  
+                  <TwitterLogin className="bc-twitter-auth"  loginUrl={`${base_url}/auth/twitter`}
+                    onFailure={this.onFailed} onSuccess={this.onSuccess}
+                    requestTokenUrl={`${base_url}/auth/twitter/reverse`}/>
                 </div> }
 
               <br/>
@@ -112,7 +136,7 @@ class SignIn extends Component {
               <div className="bc-auth-signup-txt">Not a member yet ?
                 <Link to={"/signup"}><span className="bc-auth-signup-lnk">Sign Up</span></Link>
               </div>
-              </div>
+             </div>
           </div>
         </div>
       </div>
