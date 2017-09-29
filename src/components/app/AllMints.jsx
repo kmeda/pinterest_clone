@@ -32,7 +32,7 @@ class AllMints extends Component {
     return (
       <div className="bc-outer-wrapper">
         <MenuBar allMintsActive={this.state.setClass}/>
-        <div className="bc-books-container">
+        <div className="bc-mints-container">
           <div className="bc-books-requests-header">All Mints Go Here...</div>
 
         </div>
