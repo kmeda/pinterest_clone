@@ -3,10 +3,12 @@
   flex-direction: column
   align-items: center
   width: 100vw
+  min-width: 1000px
   height: 100vh
   .bc-menu-bar
     display: flex
     align-items: center
+    min-width: 1000px
     width: 100vw
     height: 60px
     color: #f4f4f4
@@ -15,13 +17,10 @@
       height: 40px
       width: 70%
       .bc-fcclogo
-        height: 40px
-        width: 40px
-        border-radius: 3px
-        margin-left: 7px
-        background-image: url("../src/assets/fcc-logo.jpeg")
-        background-size: contain
-        background-repeat: no-repeat      
+        margin-top: 5px
+        margin-left: 15px
+        color: green
+        font-size: 1.8em
     .links-container
       display: flex
       justify-content: center
@@ -43,12 +42,16 @@
         border-radius: 25px
         &:hover
           background-color: rgba(0,0,0,0.1)  
-      .bc-mybooks-active, .bc-allbooks-active
-        color: #7b7b7b !important
+      .bc-mymints-active, .bc-allmints-active
+        color: #373737 !important
+        font-weight: bold
       .bc-profile
         // margin-right: 10px
         // width: 300px
         // font-size: 0.75em
+        .bc-user-icon
+          font-size: 1.2em
+          margin-right: 3px
       .bc-settings
         font-size: 1.3em
         cursor: pointer

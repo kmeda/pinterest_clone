@@ -63,10 +63,10 @@ class MenuBar extends Component {
       <div>
           <div className="bc-menu-bar">
             <div className="logo-container">
-              <a href='https://www.freecodecamp.org/challenges/build-a-pinterest-clone' target="_blank"><img className="bc-fcclogo"/></a>
+              <a href='https://www.freecodecamp.org/challenges/build-a-pinterest-clone' target="_blank"><i className="bc-fcclogo fa fa-free-code-camp"></i></a>
             </div>
           <div className="links-container">
-          <Link to='/home'><div className={this.props.allBooksActive + " bc-allbooks"}>Login</div></Link>
+          <Link to='/profile'><div className={"bc-allbooks"}>Login</div></Link>
           </div>
         </div>
       </div>
@@ -93,34 +93,32 @@ class MenuBar extends Component {
       )
     }
 
-
     return (
       <div>
           <div className="bc-menu-bar">
             <div className="logo-container">
-                <a href='https://www.freecodecamp.org/challenges/build-a-pinterest-clone' target="_blank"><img className="bc-fcclogo"/></a>
+              <a href='https://www.freecodecamp.org/challenges/build-a-pinterest-clone' target="_blank"><i className="bc-fcclogo fa fa-free-code-camp"></i></a>
               </div>
             <div className="links-container">
-            <Link to='/'><div className={this.props.myBooksActive + " bc-allbooks"}>Home</div></Link>
+              <Link to='/'><div className={this.props.allMintsActive + " bc-allbooks"}>Home</div></Link>
+              <Link to="/profile">
+                <div className={this.props.myMintsActive + " bc-profile"}>
+                  <i className="bc-user-icon fa fa-user-circle" aria-hidden="true"></i>
+                  {(Object.keys(this.props.auth.user)).length <= 1 ? "Profile" : this.props.auth.user.firstName }
+                </div>
+              </Link>
+              
 
-            <div className="bc-profile">
-              {(Object.keys(this.props.auth.user)).length <= 1 ? null : this.props.auth.user.firstName }
+              <div className={this.props.settings.showSettings ? "bc-settings bc-settings-clicked" : "bc-settings" }
+                  onClick={this.showSettings.bind(this)}>
+                <i className="fa fa-cog" aria-hidden="true" >
+                  {(Object.keys(this.props.auth.user)).length <= 1 ? <div className="bc-settings-alert"><i className="fa fa-exclamation" aria-hidden="true"></i></div> : null }
+                </i>
+              </div>
+              {this.props.settings.showSettings ? renderSettingsBox() : null}
+
+              <div className="bc-signout"><i className="bc-animate-logout fa fa-sign-out" aria-hidden="true" onClick={this.signOutUser.bind(this)}></i></div>
             </div>
-
-            <div className={this.props.settings.showSettings ? "bc-settings bc-settings-clicked" : "bc-settings" }
-                onClick={this.showSettings.bind(this)}>
-              <i className="fa fa-cog" aria-hidden="true" >
-                {(Object.keys(this.props.auth.user)).length <= 1 ? <div className="bc-settings-alert"><i className="fa fa-exclamation" aria-hidden="true"></i></div> : null }
-              </i>
-            </div>
-            {this.props.settings.showSettings ? renderSettingsBox() : null}
-
-            <div className="bc-signout"><i className="bc-animate-logout fa fa-sign-out" aria-hidden="true" onClick={this.signOutUser.bind(this)}></i></div>
-            </div>
-          
-          
-          
-
         </div>
       </div>
     )

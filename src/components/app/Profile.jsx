@@ -6,10 +6,10 @@ import TimeAgo from 'react-timeago';
 
 var actions = require('../../actions/actions.js');
 
-class Home extends Component {
+class Profile extends Component {
   constructor(props){
     super(props);
-
+    this.state = { setClass: null, hover: false };
   }
 
 
@@ -18,7 +18,7 @@ class Home extends Component {
   }
 
   componentDidMount(){
-
+    this.setState({setClass: "bc-mymints-active"});
   }
 
   componentWillUnmount(){
@@ -30,7 +30,7 @@ class Home extends Component {
 
     return (
       <div className="bc-outer-wrapper">
-        <MenuBar/>
+        <MenuBar myMintsActive={this.state.setClass}/>
         <div className="bc-books-container">
           <div className="bc-books-requests-header">My Mints Go Here...</div>
 
@@ -46,4 +46,4 @@ export default Redux.connect(
       books: state.books
     }
   }
-)(Home);
+)(Profile);

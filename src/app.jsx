@@ -6,7 +6,7 @@ import {Provider} from "react-redux";
 import RequireAuth from './components/auth/require_auth.jsx';
 import SignIn from './components/auth/SignIn.jsx';
 import SignUp from './components/auth/SignUp.jsx';
-import Home from './components/app/Home.jsx';
+import Profile from './components/app/Profile.jsx';
 import AllMints from './components/app/AllMints.jsx';
 
 import * as actions from './actions/actions.js';
@@ -62,7 +62,7 @@ ReactDOM.render(
       <Router history={history}>
         <Switch>
         <Route exact path="/" component={AllMints}/>
-          <Route exact path="/home" component={RequireAuth(Home)}/>
+          <Route exact path="/profile" component={RequireAuth(Profile)}/>
           <Route exact path="/signup" component={SignUp}/>
           <Route exact path="/signin" component={SignIn}/>
           <Route render={()=> <h1>Page not found.</h1>}/>

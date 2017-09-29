@@ -9,16 +9,17 @@ var actions = require('../../actions/actions.js');
 class AllMints extends Component {
   constructor(props){
     super(props);
-
+    this.state = { setClass: null, hover: false };
   }
 
 
   componentWillMount(){
     var {dispatch} = this.props;
+
   }
 
   componentDidMount(){
-
+    this.setState({setClass: "bc-allmints-active"});
   }
 
   componentWillUnmount(){
@@ -30,7 +31,7 @@ class AllMints extends Component {
 
     return (
       <div className="bc-outer-wrapper">
-        <MenuBar/>
+        <MenuBar allMintsActive={this.state.setClass}/>
         <div className="bc-books-container">
           <div className="bc-books-requests-header">All Mints Go Here...</div>
 
