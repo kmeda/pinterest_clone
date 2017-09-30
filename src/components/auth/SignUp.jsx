@@ -2,6 +2,8 @@ import React,{Component} from 'react';
 import {BrowserRouter as Router, Route, Switch, Link, withRouter} from 'react-router-dom';
 import * as Redux from "react-redux";
 import _ from 'lodash';
+import TwitterLogin from 'react-twitter-auth';
+
 var actions = require('../../actions/actions.js');
 
 
@@ -121,8 +123,31 @@ class SignUp extends Component {
 
   }
 
+  onSuccess = (response) => {
+    var {dispatch} = this.props;
+    const token = response.headers.get('x-auth-token');
+    console.log(response);
+    response.json().then(user => {
+      if (token) {
+        dispatch(actions.setAuthenticated(true));
+        localStorage.setItem('token', token);
+        localStorage.setItem('email', user.email || '');
+        dispatch(push('/'));
+      }
+    });
+  };
+  
+  onFailed = (error) => {
+    alert(error);
+  };
+  
 
   render(){
+
+    var base_url = process.env.NODE_ENV === 'production' 
+                  ? 'https://fcc-minterest.herokuapp.com'
+                  : 'http://localhost:3050';
+
     return (
       <div>
         <div className="bc-background"></div>
@@ -183,9 +208,10 @@ class SignUp extends Component {
                   <i className="fa fa-twitter-square" aria-hidden="true"></i>
                   <div><i className="fa fa-spinner fa-pulse"></i></div>
                 </div>
-                : <div className="bc-twitter-auth" onClick={this.handleSignUp.bind(this)}>
-                  <i className="fa fa-twitter-square" aria-hidden="true"></i>
-                  <div >Continue with Twitter</div>
+                : <div>
+                  <TwitterLogin className="bc-twitter-auth"  loginUrl={`${base_url}/auth/twitter`}
+                    onFailure={this.onFailed} onSuccess={this.onSuccess}
+                    requestTokenUrl={`${base_url}/auth/twitter/reverse`}/>
                 </div> }
 
               <br/>

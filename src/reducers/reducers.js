@@ -125,3 +125,15 @@ export var settingsReducer = (state={showSettings: false}, action) => {
     return state;
   }
 }
+
+export var mintsReducer = (state={}, action) => {
+  switch (action.type) {
+    case "SET_MY_MINTS":
+      return {
+        ...state,
+        myMints: action.payload
+      }
+    default:
+      return state;
+  }
+}

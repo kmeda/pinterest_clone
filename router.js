@@ -26,7 +26,6 @@ module.exports = function(app) {
   app.post('/signup_user', Authentication.signup);
 
   app.post('/auth/twitter/reverse', function(req, res) {
-    console.log("TEST");
     request.post({
       url: 'https://api.twitter.com/oauth/request_token',
       oauth: {
@@ -40,7 +39,7 @@ module.exports = function(app) {
       }
 
       var jsonStr = '{ "' + body.replace(/&/g, '", "').replace(/=/g, '": "') + '"}';
-      console.log(jsonStr);
+      
       res.send(JSON.parse(jsonStr));
     });
   });
@@ -75,7 +74,7 @@ module.exports = function(app) {
       if (!req.user) {
         return res.send(401, 'User Not Authenticated');
       }
-
+      console.log(req.user);
       // prepare token for API
       req.auth = {
         id: req.user.id

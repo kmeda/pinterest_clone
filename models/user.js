@@ -10,6 +10,7 @@ const userSchema = new Schema({
    firstName: String,
    lastName: String,
    location: String,
+   mints: [],
    twitterProvider: {
       type: {
         id: String,
@@ -43,7 +44,8 @@ userSchema.methods.comparePassword = function(candidatePassword, callback) {
 }
 
 userSchema.statics.upsertTwitterUser = function(token, tokenSecret, profile, cb) {
-    var that = this;
+    console.log(profile);
+  var that = this;
     return this.findOne({
       'twitterProvider.id': profile.id
     }, function(err, user) {

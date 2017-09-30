@@ -225,3 +225,21 @@ export var saveUserSettings = (settings) => {
       });
   }
 }
+
+
+//Mints Reducer actions
+
+export var setMyMints = (payload) => {
+  return {
+    type: "SET_MY_MINTS",
+    payload
+  }
+}
+
+export var saveMintToDB = (obj) => {
+  return (dispatch, getState) => {
+    // post data to dbase and fetch data back to set state
+
+
+  }
+}
