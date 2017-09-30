@@ -74,7 +74,7 @@ module.exports = function(app) {
       if (!req.user) {
         return res.send(401, 'User Not Authenticated');
       }
-      console.log(req.user);
+      console.log("Router", req.user);
       // prepare token for API
       req.auth = {
         id: req.user.id

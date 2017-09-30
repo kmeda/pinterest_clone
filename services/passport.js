@@ -62,6 +62,7 @@ const twitterLogin = new TwitterTokenStrategy({
       includeEmail: true
     },
     function (token, tokenSecret, profile, done) {
+      console.log("Passport", profile);
       User.upsertTwitterUser(token, tokenSecret, profile, function(err, user) {
         return done(err, user);
       });
