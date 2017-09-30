@@ -10,6 +10,7 @@ const userSchema = new Schema({
    firstName: String,
    lastName: String,
    location: String,
+   username: String,
    mints: [],
    twitterProvider: {
       type: {
@@ -53,7 +54,8 @@ userSchema.statics.upsertTwitterUser = function(token, tokenSecret, profile, cb)
       if (!user) {
         var newUser = new that({
           email: profile.emails[0].value,
-          firstName: profile.screen_name,
+          username: profile.username,
+          firstName: profile.displayName,
           twitterProvider: {
             id: profile.id,
             token: token,
