@@ -4,6 +4,15 @@ import _ from "lodash";
 
 import socket from '../app.jsx';
 
+(function() {
+     var token = localStorage.getItem('token');
+     if (token) {
+         axios.defaults.headers.common['Authorization'] = "bearer " + token;
+     } else {
+         axios.defaults.headers.common['Authorization'] = null;
+     }
+})();
+
 if (process.env.NODE_ENV === 'production') {
   var base_url = 'https://fcc-minterest.herokuapp.com';
 } else {
@@ -179,7 +188,7 @@ export var setUserDetails = (payload) => {
 
 export var fetchUserDetails = (email) => {
   return (dispatch, getState) => {
-
+  
     axios.get(`${base_url}/get_user?email=${email}`).then((res) => {
       dispatch(setUserDetails(res.data));
     }).catch((e)=>console.log(e));
@@ -210,18 +219,9 @@ export var saveUserSettings = (settings) => {
     //set save progress
     dispatch(saveSettings(true));
 
-
-    var headers = {
-           "Content-Type": "application/json",
-           'Accept' : 'application/json',
-           "authorization": localStorage.getItem('token')
-       }
-
-
-    axios.post(`${base_url}/update_user`, JSON.stringify(settings), headers).then((res)=>{
+    axios.post(`${base_url}/update_user`, JSON.stringify(settings)).then((res)=>{
         dispatch(setUserDetails(settings));
         dispatch(saveSettings(false));
-        dispatch(showSettings(false));
       });
   }
 }

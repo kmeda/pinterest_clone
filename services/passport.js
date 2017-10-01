@@ -37,12 +37,11 @@ const localLogin = new LocalStrategy(localOptions, function(email, password, don
 
 
 const jwtOptions = {
-  jwtFromRequest: ExtractJwt.fromHeader('authorization'),
+  jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
   secretOrKey: secret
 };
 
 const jwtLogin = new JwtStrategy(jwtOptions, function(payload, done){
-
   User.findById(payload.sub, function(err, user){
     if (err) {
       return done(err, false)};
@@ -62,7 +61,7 @@ const twitterLogin = new TwitterTokenStrategy({
       includeEmail: true
     },
     function (token, tokenSecret, profile, done) {
-      console.log("Passport", profile);
+      
       User.upsertTwitterUser(token, tokenSecret, profile, function(err, user) {
         return done(err, user);
       });

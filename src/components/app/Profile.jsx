@@ -1,7 +1,7 @@
 import React,{Component} from 'react';
 import * as Redux from "react-redux";
 import Modal from 'react-modal';
-
+import _ from 'lodash';
 import MenuBar from './MenuBar.jsx';
 
 var actions = require('../../actions/actions.js');
@@ -15,8 +15,10 @@ const customStyles = {
     marginRight           : '-50%',
     transform             : 'translate(-50%, -50%)',
     width: '550px',
-    height: '600px',
-    fontFamily: 'Fira sans'
+    height: 'auto',
+    fontFamily: 'Fira sans',
+    padding: '0',
+    border: 'none'
   }
 };
 
@@ -58,8 +60,8 @@ class Profile extends Component {
   afterOpenModal() {
     
     this.setState({modalImagePreview: ""});
-    this.subtitle.style.textAlign = 'center';
-    this.subtitle.style.fontFamily = 'Fira sans';
+    this.refs.title.style.textAlign = 'center';
+    this.refs.title.style.fontFamily = 'Fira sans';
   }
  
   closeModal() {
@@ -68,27 +70,63 @@ class Profile extends Component {
   
   handleImagePreview(){
     var image = this.refs.imagePreview.value;
+    if(image.length > 0){
+      this.refs.imagePreview.style.border = '1px solid #FAFAFA';
+    }
+    this.refs.imgContainer.style.display = 'flex';
     this.setState({modalImagePreview: image});
   }
 
+  handleTitle(){
+    var title = this.refs.imageTitle.value;
+    if(title.length > 0){
+      this.refs.imageTitle.style.border = '1px solid #FAFAFA';
+    }
+  }
+
   handleImageAdd(e){
+    var {dispatch} = this.props;
     e.preventDefault();
-    var image = this.refs.imagePreview.value;
-    if (image.length<=0) {
+    var title = this.refs.imageTitle.value;
+    var imageURL = this.refs.imagePreview.value;
+
+    if (_.trim(title).length <=0 && _.trim(imageURL).length <= 0) {
+      this.refs.imagePreview.style.border = '1px solid #D50000';
+      this.refs.imageTitle.style.border = '1px solid #D50000';
+    }
+    
+    if (_.trim(title).length >=0 && _.trim(imageURL).length <= 0) {
+      this.refs.imagePreview.style.border = '1px solid #D50000';
+    }
+
+    if (_.trim(title).length <=0 && _.trim(imageURL).length > 0) {
+      this.refs.imageTitle.style.border = '1px solid #D50000';
+    }
+
+    if (_.trim(title).length > 0 && _.trim(imageURL).length > 0) {
+      console.log({title, imageURL});
       this.setState({modalIsOpen: false});
       return;
     }
-    var images = this.state.images;
-    images.unshift(image);
-    this.setState({images: images, modalIsOpen: false});
-  }
 
+
+    
+    
+  }
+//http://orig13.deviantart.net/d632/f/2014/325/9/c/9c2f55cab2a77d16b3aad1e7cb2a997b-d87525z.jpg
   render(){
 
     var childElements = this.state.images.map(function(element, index){
       return (
            <div key={index} className="bc-img-grid">
                <img src={element} />
+               <div className="bc-mint-attr">
+                  <div className="bc-mint-title">Mirana Cosplay</div>
+                  <div className="bc-mint-user-likes">
+                    <div className="bc-mint-username"><i>kmeda9</i></div>
+                    <div className="bc-mint-like"><i className="fa fa-heart"></i> <span>120</span></div>
+                  </div>
+               </div>
            </div>
        );
    });
@@ -108,7 +146,6 @@ class Profile extends Component {
           </div>
           <br/>
           <div className="bc-mints-columns">
-           
             {childElements}
           <div/>
 
@@ -120,19 +157,25 @@ class Profile extends Component {
           contentLabel="Example Modal"
         >
  
-          <h2 ref={subtitle => this.subtitle = subtitle}>Add a new Mint</h2>
-          <hr/>
-          <i className= "modal-close fa fa-times" onClick={this.closeModal.bind(this)}></i>
-          <div className="modal-image-container"><img src={this.state.modalImagePreview} alt=" "/></div>
+          <div className="modal-title" ref="title">Add a new Mint</div>
+          <br/>
+          <div ref= "imgContainer" className="modal-image-container"><img src={this.state.modalImagePreview} alt=" "/></div>
           <br/>
           <form>
-            <input className="modal-input" placeholder="Title" ref="imageTitle"/>
+            <input className="modal-input" placeholder="Title" onChange={this.handleTitle.bind(this)} ref="imageTitle"/>
+            <i className="modal-link-icon fa fa-header" aria-hidden="true"></i>
+
             <br/>
             <br/>
             <input className="modal-input" placeholder="Image source link" onChange={this.handleImagePreview.bind(this)} ref="imagePreview"/>
+            <i className="modal-link-icon fa fa-link" aria-hidden="true"></i>
             <br/>
             <br/>
-            <button className="modal-input-btn" onClick={this.handleImageAdd.bind(this)}>Add</button>
+            <div className="modal-button-group">
+              <button className="modal-input-btn" onClick={this.handleImageAdd.bind(this)}>Ok</button>
+              <button className= "modal-input-btn modal-close" onClick={this.closeModal.bind(this)}>Cancel</button>
+            </div>
+            
           </form>
         </Modal>
 

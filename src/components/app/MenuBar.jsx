@@ -4,17 +4,36 @@ import {BrowserRouter as Redirect, Router, Route, Switch, Link} from 'react-rout
 import { push } from 'react-router-redux';
 import _ from 'lodash';
 import axios from 'axios';
+import Modal from 'react-modal';
 var actions = require('../../actions/actions.js');
+
+const customStyles = {
+  content : {
+    top                   : '50%',
+    left                  : '50%',
+    right                 : 'auto',
+    bottom                : 'auto',
+    marginRight           : '-50%',
+    transform             : 'translate(-50%, -50%)',
+    width: '400px',
+    height: '300px',
+    fontFamily: 'Fira sans',
+    padding: '0',
+    border: 'none'
+  }
+};
 
 class MenuBar extends Component {
   constructor(props){
     super(props);
-
+    this.state = {
+      modalIsOpen: false
+    }
   }
 
   componentWillMount(){
     var {dispatch, auth} = this.props;
-    if (!auth.user) {
+    if (auth.authenticated && !auth.user) {
       var email = localStorage.getItem("email");
       dispatch(actions.fetchUserDetails(email));
     }
@@ -27,9 +46,16 @@ class MenuBar extends Component {
     }
   }
 
-  showSettings(){
-    var {dispatch, settings} = this.props;
-    settings.showSettings ? dispatch(actions.showSettings(false)) : dispatch(actions.showSettings(true));
+  openModal() {
+    this.setState({modalIsOpen: true});
+  }
+ 
+  afterOpenModal() {
+        
+  }
+ 
+  closeModal() {
+    this.setState({modalIsOpen: false});
   }
 
   saveSettings(e){
@@ -66,32 +92,13 @@ class MenuBar extends Component {
               <a href='https://www.freecodecamp.org/challenges/build-a-pinterest-clone' target="_blank"><i className="bc-fcclogo fa fa-free-code-camp"></i></a>
             </div>
           <div className="links-container">
-          <Link to='/profile'><div className={"bc-allbooks"}>Login</div></Link>
+          <Link to='/signin'><div className={"bc-allbooks"}>Login</div></Link>
           </div>
         </div>
       </div>
     )
     }
 
-    var renderSettingsBox = () => {
-      return (
-        <div className="bc-settings-box">
-            <form className="bc-settings-form">
-              <div>Profile Settings</div>
-              <br/>
-              <input className="bc-settings-input" type="text" placeholder={(Object.keys(this.props.auth.user)).length <= 1 ? "First Name" : "First Name -" + this.props.auth.user.firstName} ref="firstname"/>
-              <input className="bc-settings-input" type="text" placeholder={(Object.keys(this.props.auth.user)).length <= 1 ? "Last Name" : "Last Name -" + this.props.auth.user.lastName} ref="lastname"/>
-              <input className="bc-settings-input" type="text" placeholder={(Object.keys(this.props.auth.user)).length <= 1 ? "Location" : "Location -" + this.props.auth.user.location} ref="location"/>
-                <br/>
-                {
-                  this.props.settings.saveSettings ?
-                  <button onClick={(e)=>e.preventDefault()}><i className="fa fa-spinner fa-pulse"></i></button> :
-                  <button onClick={this.saveSettings.bind(this)}>Save</button>
-                }
-            </form>
-        </div>
-      )
-    }
 
     return (
       <div>
@@ -108,14 +115,32 @@ class MenuBar extends Component {
                 </div>
               </Link>
               
-
-              <div className={this.props.settings.showSettings ? "bc-settings bc-settings-clicked" : "bc-settings" }
-                  onClick={this.showSettings.bind(this)}>
-                <i className="fa fa-cog" aria-hidden="true" >
-                  {(Object.keys(this.props.auth.user)).length <= 1 ? <div className="bc-settings-alert"><i className="fa fa-exclamation" aria-hidden="true"></i></div> : null }
-                </i>
+              <div className="bc-settings" onClick={this.openModal.bind(this)}>
+                <i className="fa fa-cog" aria-hidden="true" ></i>
               </div>
-              {this.props.settings.showSettings ? renderSettingsBox() : null}
+
+              <Modal
+                  isOpen={this.state.modalIsOpen}
+                  onAfterOpen={this.afterOpenModal.bind(this)}
+                  onRequestClose={this.closeModal.bind(this)}
+                  style={customStyles}
+                  contentLabel="Example Modal">
+                  <form className="bc-settings-form">
+                    <div>Profile Settings</div>
+                    <br/>
+                    <input className="bc-settings-input" type="text" placeholder={(Object.keys(this.props.auth.user)).length <= 1 ? "First Name" : "First Name -" + this.props.auth.user.firstName} ref="firstname"/>
+                    <input className="bc-settings-input" type="text" placeholder={(Object.keys(this.props.auth.user)).length <= 1 ? "Last Name" : "Last Name -" + this.props.auth.user.lastName} ref="lastname"/>
+                    <input className="bc-settings-input" type="text" placeholder={(Object.keys(this.props.auth.user)).length <= 1 ? "Location" : "Location -" + this.props.auth.user.location} ref="location"/>
+                      <br/>
+                      {
+                        this.props.settings.saveSettings ?
+                        <button onClick={(e)=>e.preventDefault()}><i className="fa fa-spinner fa-pulse"></i></button> :
+                        <button onClick={this.saveSettings.bind(this)}>Save</button>
+                        
+                      }
+                      <button onClick={this.closeModal.bind(this)}>Close</button>
+                  </form>
+              </Modal>
 
               <div className="bc-signout"><i className="bc-animate-logout fa fa-sign-out" aria-hidden="true" onClick={this.signOutUser.bind(this)}></i></div>
             </div>

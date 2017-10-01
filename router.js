@@ -74,7 +74,6 @@ module.exports = function(app) {
       if (!req.user) {
         return res.send(401, 'User Not Authenticated');
       }
-      console.log("Router", req.user);
       // prepare token for API
       req.auth = {
         id: req.user.id
@@ -83,10 +82,12 @@ module.exports = function(app) {
       return next();
 }, Authentication.generateToken, Authentication.sendToken);
 
-  app.post('/update_user', updateUser.update);
-  app.get('/get_user', updateUser.fetchUser);
+  
+app.post('/update_user', requireAuth, updateUser.update);
 
-  app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, 'dist/index.html'));
-  });
+app.get('/get_user', requireAuth, updateUser.fetchUser);
+
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'dist/index.html'));
+});
 }
