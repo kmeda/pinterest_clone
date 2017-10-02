@@ -13,6 +13,18 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 
+exports.checkUsername = (req, res, next) => {
+  const username = req.query.username;
+  User.findOne({username: username}, (err, user)=>{
+    if(err) {return next(err)};
+    if(user){
+      res.send("username taken");
+    } else {
+      res.send("username available");
+    }
+  });
+}
+
 exports.update = function(req, res, next){
 
     const email = req.body.email;

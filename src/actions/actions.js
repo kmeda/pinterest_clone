@@ -98,10 +98,64 @@ export var startSignIn = (credentials) => {
 
 
 // SignUp Actions
+export var usernameErrorMsg = (flag) => {
+  return {
+    type: "USERNAME_ERROR_MSG",
+    flag
+  }
+}
+export var usernameInValid = (flag) => {
+  return {
+    type: "USERNAME_INVALID",
+    flag
+  }
+}
+export var usernameValid = (flag) => {
+  return {
+    type: "USERNAME_VALID",
+    flag
+  }
+}
+export var usernameInUse = (flag) => {
+  return {
+    type: "USERNAME_IN_USE",
+    flag
+  }
+}
+export var fullnameErrorMsg = (flag) => {
+  return {
+    type: "FULLNAME_ERROR_MSG",
+    flag
+  }
+}
+export var fullnameInValid = (flag) => {
+  return {
+    type: "FULLNAME_INVALID",
+    flag
+  }
+}
+export var fullnameValid = (flag) => {
+  return {
+    type: "FULLNAME_VALID",
+    flag
+  }
+}
 
 export var emailErrorMsg = (flag) => {
   return {
     type: "EMAIL_ERROR_MSG",
+    flag
+  }
+}
+export var emailInValid = (flag) => {
+  return {
+    type: "EMAIL_INVALID",
+    flag
+  }
+}
+export var emailValid = (flag) => {
+  return {
+    type: "EMAIL_VALID",
     flag
   }
 }
@@ -112,68 +166,75 @@ export var passwordErrorMsg = (flag) => {
     flag
   }
 }
-
-export var emailInValid = (flag) => {
-  return {
-    type: "EMAIL_INVALID",
-    flag
-  }
-}
-
-export var emailValid = (flag) => {
-  return {
-    type: "EMAIL_VALID",
-    flag
-  }
-}
-
 export var passwordInValid = (flag) => {
   return {
     type: "PASSWORD_INVALID",
     flag
   }
 }
-
 export var passwordValid = (flag) => {
   return {
     type: "PASSWORD_VALID",
     flag
   }
 }
-
-export var passwordConfirmed = (flag) => {
+export var emailInUse = (flag) => {
   return {
-    type: "PASSWORD_CONFIRMATION",
+    type: "EMAIL_IN_USE",
     flag
   }
 }
 
-export var passwordConfirmedInvalid = (flag) => {
+export var serverUnreachable = (flag) => {
   return {
-    type: "PASSWORD_CONFIRMATION_INVALID",
+    type: "SERVER_UNREACHABLE",
     flag
   }
 }
+
+export var checkUsernameExists = (username) => {
+  return (dispatch, getState) => {
+
+    axios.get(`${base_url}/usename_check?username=${username}`).then((res)=>{
+      console.log(res.data);
+      if (res.data === 'username taken') {
+        dispatch(usernameInUse(true));
+        dispatch(usernameValid(false));
+      } else if (res.data === 'username available') {
+        dispatch(usernameInUse(false));
+        dispatch(usernameValid(true));
+        dispatch(usernameInValid(false));
+      }
+    }).catch((e)=>{
+      console.log(e)
+    });
+    console.log(username);
+  }
+}
+
 
 export var startSignUp = (credentials) => {
   return (dispatch, getState) => {
     dispatch(signingInUser(true));
     axios.post(`${base_url}/signup_user`, JSON.stringify(credentials)).then((res)=>{
-
+      
       if (res.data.token) {
+        console.log("Success")
         localStorage.setItem('email', credentials.email);
         localStorage.setItem('token', res.data.token);
         dispatch(clearErrorMsg());
         dispatch(setAuthenticated(true));
         dispatch(push('/'));
       } else if (res.data.error === "Email is in use") {
+        console.log("Email Match")
         dispatch(signingInUser(false));
-        dispatch(invalidEmailorPasswordError(res.data.error));
+        dispatch(emailInUse(true));
       }
     }).catch((e) => {
       // handle dispatch error state
+      console.log("Error Response")
       dispatch(signingInUser(false));
-      dispatch(invalidEmailorPasswordError("Server unreachable :("));
+      dispatch(serverUnreachable(true));
       console.log(e);
     });
   }
@@ -185,7 +246,6 @@ export var setUserDetails = (payload) => {
     payload
   }
 }
-
 export var fetchUserDetails = (email) => {
   return (dispatch, getState) => {
   

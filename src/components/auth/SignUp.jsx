@@ -24,22 +24,62 @@ class SignUp extends Component {
     e.preventDefault();
     var {dispatch, auth} = this.props;
 
-    var email = _.trim(this.refs.userEmail.value);
+    var username = _.trim(this.refs.username.value);
+    var fullname = _.trim(this.refs.fullname.value);
+    var email = _.trim(this.refs.email.value);
     var password = this.refs.password.value;
-    var passwordConfirm = this.refs.passwordConfirm.value;
-    let credentials = {email, password};
 
-    if (email === '' || password === '' || passwordConfirm === '') {
+    
+    
+
+    // Add inputs for new fields
+    // Validation logic
+    // Redo error styling using refs styles
+    // Update server side code to save new fields
+    // Update settings modal to have placeholders appropriately
+    // Continue to code the app functionality
+      // Check for image validity onChange - Report error
+      // Post valid links to database
+      // On fetch check url for broken images - use place holders
+      // Add controls for each image to like/unlike, delete, user, remint - Using Sockets
+
+
+    if (email === '' || password === '' || username === '' || fullname === '') {
       if (email === '') {
         dispatch(actions.emailErrorMsg(true));
       }
       if (password === '') {
         dispatch(actions.passwordErrorMsg(true));
       }
+      if (username === '') {
+        dispatch(actions.usernameErrorMsg(true));
+      }
+      if (fullname === '') {
+        dispatch(actions.fullnameErrorMsg(true));
+      }
+
       return;
     }
 
-    if (auth.signUp.emailValid && auth.signUp.passwordValid && auth.signUp.passwordConfirmed) {
+    var extractName = [];
+    if(fullname.split(' ').length >= 1){
+      extractName = fullname.split(' ').map((str)=> {
+        if(str.length > 0){
+          return str;
+        }
+      });
+    }
+    var name = extractName.slice(0,3);
+    
+    fullname = {firstname: name[0], lastname: name.slice(1,3).join(' ')}
+    
+    var credentials = {username, fullname, email, password};
+
+    console.log(credentials);
+
+    if (auth.signUp.emailValid && auth.signUp.passwordValid && auth.signUp.usernameValid && auth.signUp.fullnameValid) {
+      console.log("TEST");
+      dispatch(actions.serverUnreachable(false));
       dispatch(actions.startSignUp(credentials));
     }
 
@@ -47,35 +87,100 @@ class SignUp extends Component {
 
   handleFieldChange(){
     var {dispatch} = this.props;
-    var email = this.refs.userEmail.value;
+    var username = _.trim(this.refs.username.value);
+    var fullname = _.trim(this.refs.fullname.value);
+    var email = _.trim(this.refs.email.value);
     var password = this.refs.password.value;
-    var passwordConfirm = this.refs.passwordConfirm.value;
 
-    if (email.length === 0 || password.length === 0) {
+    if(username !== '' && (/^[a-z\d](?:[a-z\d]|-(?=[a-z\d])){0,38}$/i.test(username))){
+      dispatch(actions.checkUsernameExists(username));
+    }
+
+    if (email.length === 0 || password.length === 0 || username.length === 0  || fullname.length === 0) {
+      if (username.length === 0) {
+        dispatch(actions.usernameValid(false));
+        dispatch(actions.usernameInUse(false));
+        this.refs.username.style.border = 'none';
+      }
+      if (fullname.length === 0) {
+        dispatch(actions.fullnameValid(false));
+        this.refs.fullname.style.border = 'none';
+      }
       if (email.length === 0) {
         dispatch(actions.emailValid(false));
+        dispatch(actions.emailInUse(false));
+        this.refs.email.style.border = 'none';
       }
       if (password.length === 0) {
         dispatch(actions.passwordValid(false));
+        this.refs.password.style.border = 'none';
       }
       return;
     }
 
-    if (passwordConfirm === password) {
-      dispatch(actions.passwordConfirmedInvalid(false));
-      dispatch(actions.passwordConfirmed(true));
+  }
+
+  handleUsernameValidity(){
+    var {dispatch} = this.props;
+    var username = this.refs.username.value;
+    //post username to server api and get response back
+    if (username.length === 0) {
+      dispatch(actions.usernameErrorMsg(false));
+      dispatch(actions.usernameValid(false));
+      dispatch(actions.usernameInValid(false));
+      this.refs.username.style.border = 'none';
+      return;
     }
+
+    if (username !== '' && !(/^[a-z\d](?:[a-z\d]|-(?=[a-z\d])){0,38}$/i.test(username))){
+      dispatch(actions.usernameErrorMsg(false));
+      dispatch(actions.usernameInValid(true));
+      dispatch(actions.usernameValid(false));
+      this.refs.username.style.border = '1px solid #D50000';
+    } else if (username !== '' && (/^[a-z\d](?:[a-z\d]|-(?=[a-z\d])){0,38}$/i.test(username))){
+      dispatch(actions.usernameErrorMsg(false));
+      dispatch(actions.usernameValid(true));
+      dispatch(actions.usernameInValid(false));
+      this.refs.username.style.border = 'none';
+    }
+  }
+
+  handleFullnameValidity(){
+    var {dispatch} = this.props;
+    var fullname = this.refs.fullname.value;
+
+    if (fullname.length === 0) {
+      dispatch(actions.fullnameErrorMsg(false));
+      dispatch(actions.emailValid(false));
+      dispatch(actions.emailInValid(false));
+      this.refs.fullname.style.border = 'none';
+      return;
+    }
+
+    if (fullname !== '' && !(/^[a-zA-Z ]{2,30}$/.test(fullname))) {
+      dispatch(actions.fullnameErrorMsg(false));
+      dispatch(actions.fullnameInValid(true));
+      dispatch(actions.fullnameValid(false));
+      this.refs.fullname.style.border = '1px solid #D50000';
+    } else if(fullname !== '' && (/^[a-zA-Z ]{2,30}$/.test(fullname))) {
+      dispatch(actions.fullnameErrorMsg(false));
+      dispatch(actions.fullnameValid(true));
+      dispatch(actions.fullnameInValid(false));
+      this.refs.fullname.style.border = 'none';
+    }
+
 
   }
 
   handleEmailValidity(){
     var {dispatch} = this.props;
-    var email = this.refs.userEmail.value;
+    var email = this.refs.email.value;
 
     if (email.length === 0) {
       dispatch(actions.emailErrorMsg(false));
       dispatch(actions.emailValid(false));
       dispatch(actions.emailInValid(false));
+      this.refs.email.style.border = 'none';
       return;
     }
 
@@ -83,10 +188,12 @@ class SignUp extends Component {
       dispatch(actions.emailErrorMsg(false));
       dispatch(actions.emailInValid(true));
       dispatch(actions.emailValid(false));
+      this.refs.email.style.border = '1px solid #D50000';
     } else if(email !== '' && (/\S+@\S+\.\S+/.test(email))) {
       dispatch(actions.emailErrorMsg(false));
       dispatch(actions.emailValid(true));
       dispatch(actions.emailInValid(false));
+      this.refs.email.style.border = 'none';
     }
   }
 
@@ -96,6 +203,7 @@ class SignUp extends Component {
 
     if (password.length === 0) {
       dispatch(actions.passwordValid(false));
+      this.refs.password.style.border = 'none';
       return;
     }
 
@@ -103,25 +211,15 @@ class SignUp extends Component {
       dispatch(actions.passwordErrorMsg(false));
       dispatch(actions.passwordInValid(true));
       dispatch(actions.passwordValid(false));
+      this.refs.password.style.border = '1px solid #D50000';
     } else if(password.length >= 6){
       dispatch(actions.passwordErrorMsg(false));
       dispatch(actions.passwordValid(true));
       dispatch(actions.passwordInValid(false));
+      this.refs.password.style.border = 'none';
     }
   }
 
-  handlePasswordConfirmValidity(){
-    //error case onBlur
-    var {dispatch} = this.props;
-    var password = this.refs.password.value;
-    var passwordConfirm = this.refs.passwordConfirm.value;
-
-    if (passwordConfirm !== password ) {
-      dispatch(actions.passwordConfirmed(false));
-      dispatch(actions.passwordConfirmedInvalid(true));
-    }
-
-  }
 
   onSuccess = (response) => {
     var {dispatch} = this.props;
@@ -159,40 +257,54 @@ class SignUp extends Component {
 
             <div className="bc-form-container">
             <form>
-                <fieldset className="bc-input-style">
+
+              <div className="bc-input-group">
+              <fieldset>
+                  {this.props.auth.signUp.noUsername ? <p className='bc-input-error'>Required</p> : null}
+                  {this.props.auth.signUp.usernameInValid ? <p className='bc-input-error'>Invalid Username</p> : null}
+                  {this.props.auth.signUp.usernameValid ? <i className="fa fa-check bc-input-username-valid"></i> : null}
+                  {this.props.auth.signUp.usernameInUse ? <p className='bc-input-error'>userid already exists</p> : null}
+                  <input placeholder="User Id" ref='username' className="bc-input-username"
+                         onChange={_.debounce(this.handleFieldChange.bind(this), 250)}
+                         onBlur={this.handleUsernameValidity.bind(this)} />
+                </fieldset>
+
+                <fieldset>
+                  {this.props.auth.signUp.noFirstName ? <p className='bc-input-error'>Required</p> : null}
+                  {this.props.auth.signUp.fullnameInValid ? <p className='bc-input-error'>Invalid</p> : null}
+                  {this.props.auth.signUp.fullnameValid ? <i className="fa fa-check bc-input-fullname-valid"></i> : null}
+                  <input placeholder="Full Name - FML" ref='fullname' className="bc-input-fullname"
+                         onChange={this.handleFieldChange.bind(this)}
+                         onBlur={this.handleFullnameValidity.bind(this)} />
+                </fieldset>
+
+              </div>
+                
+                <br/>
+                
+
+                <fieldset>
                   {this.props.auth.signUp.noEmail ? <p className='bc-input-error'>Email Required</p> : null}
                   {this.props.auth.signUp.emailInValid ? <p className='bc-input-error'>Email Invalid</p> : null}
                   {this.props.auth.signUp.emailValid ? <i className="fa fa-check bc-input-valid"></i> : null}
                   {this.props.auth.signUp.emailInUse ? <p className='bc-input-error'>Email is in use</p> : null}
-                  <input placeholder="Email" ref='userEmail'
+                  <input placeholder="Email" ref='email' className="bc-input-style"
                          onChange={this.handleFieldChange.bind(this)}
                          onBlur={this.handleEmailValidity.bind(this)} />
                 </fieldset>
 
                 <br/>
 
-                <fieldset className="bc-input-style">
+                <fieldset>
                   {this.props.auth.signUp.noPassword ? <p className='bc-input-error'>Password minimun 6 characters</p> : null}
                   {this.props.auth.signUp.passwordInValid ? <p className='bc-input-error'>Password minimun 6 characters</p> : null}
                   {this.props.auth.signUp.passwordValid ? <i className="fa fa-check bc-input-valid"></i> : null}
-                  <input placeholder="Password" type="password" ref='password'
+                  {this.props.auth.signUp.serverUnreachable ? <p className='bc-input-error'>Server Unreachable :(</p> : null}
+                  <input placeholder="Password" type="password" ref='password' className="bc-input-style"
                           onChange={this.handleFieldChange.bind(this)}
                           onBlur={this.handlePasswordValidity.bind(this)}/>
                 </fieldset>
-
-                <br/>
-
-                <fieldset className="bc-input-style">
-
-                    {this.props.auth.signIn.invalidCredentials ? <p className='bc-auth-error'>{this.props.auth.signIn.invalidCredentials}</p> : null}
-                    {this.props.auth.signUp.passwordConfirmed ? <i className="fa fa-check bc-input-valid"></i> : null}
-                    {this.props.auth.signUp.passwordConfirmedInvalid ? <i className="fa fa-times bc-input-invalid"></i> : null}
-
-                  <input placeholder="Confirm Password" type="password" ref='passwordConfirm'
-                         onChange={this.handleFieldChange.bind(this)}
-                         onBlur={this.handlePasswordConfirmValidity.bind(this)}/>
-                </fieldset>
-
+                
                 <br/>
 
                 { this.props.auth.signingIn

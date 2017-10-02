@@ -47,17 +47,19 @@ body
       flex-direction: column
       justify-content: center
       align-items: center
-
-      .bc-input-style
+      fieldset
         border: 0
         margin: 0
         padding: 0
         position: relative
-        input
+      .bc-input-group
+        display: flex
+        justify-content: space-between
+        .bc-input-username, .bc-input-fullname
           border-radius: 3px
           padding-left: 5px
           height: 36px
-          width: 280px
+          width: 120px
           background: none
           border: none
           color: #545454
@@ -65,6 +67,18 @@ body
           font-size: 0.9em
           &:focus
             outline: none
+      .bc-input-style
+        border-radius: 3px
+        padding-left: 5px
+        height: 36px
+        width: 280px
+        background: none
+        border: none
+        color: #545454
+        background-color: #f0f0f0
+        font-size: 0.9em
+        &:focus
+          outline: none
       button
         display: flex
         align-items: center
@@ -117,6 +131,12 @@ body
   transform: translate(3px, 30px)
   font-size: 0.65em
   color: red
+.bc-input-fullname-valid, .bc-input-username-valid
+  position: absolute
+  transform: translate(140px, 5px)
+  color: #77ff6b  
+.bc-input-username-valid
+  transform: translate(135px, 5px)
 .bc-input-valid
   position: absolute
   transform: translate(300px, 5px)

@@ -53,38 +53,7 @@
         font-size: 1.3em
         cursor: pointer
         position: relative
-      .bc-settings-clicked
-        background-color: rgba(0,0,0,0.1)
-        .bc-settings-alert
-          position: absolute
-          transform: translate(12px, -17px)
-          font-size: 0.8em
-          color: #0fdfec
-          box-shadow: 0 0 10px #0fdfec
-      .bc-settings-box
-        position: absolute
-        width: 200px
-        height: 150px
-        border-radius: 5px
-        background-color:  rgba(255,255,255,1)
-        box-shadow: 0 0 10px rgba(0,0,0,0.6)
-        transform: translate(5px, 110px)
-        cursor: default
-        animation: settingsBox .2s linear
-        z-index: 999
-        .bc-settings-form
-          display: flex
-          flex-direction: column
-          align-items: center
-          color: black
-          div
-            transform: translateY(8px)
-          button
-            transform: translateY(-5px)
-          .bc-settings-input
-            width: 90%
-            height: 20px
-            padding-left: 5px
+
       .bc-signout
         cursor: pointer
         font-size: 1.3em
@@ -230,10 +199,11 @@
 		column-count: 5 !important
 
 
-//Modal Styling
+//Add Mints Modal Styling
 .ReactModal__Overlay--after-open
   background-color: rgba(0,0,0,0.75) !important
-
+.ReactModal__Content, .ReactModal__Content--after-open
+  border-radius: 0px !important
 .modal-image-container
   display: none
   justify-content: center
@@ -264,8 +234,6 @@
   background-color: #FCFCFC
   font-family: "Fira sans"
   position: relative
-
-
 .modal-link-icon
   transform: translate(-438px, 3px)
 .modal-title
@@ -273,13 +241,12 @@
   justify-content: center
   align-items: center
   width: 100%
-  height: 50px
-  font-size: 1.4em
+  height: 35px
+  font-size: 1.2em
   color: #FAFAFA
-  background-color: #bd081c
+  background-color: rgb(94,30,177)
   border-bottom: 1px solid #737373
   
-
 .modal-button-group
   width: 100%
   height: 30px
@@ -293,13 +260,70 @@
   outline: none
   border: none
   cursor: pointer
-  color: black
-  box-shadow: 0 0 2px rgba(34, 25, 25, 0.4)
-  background-color: #dbdbdb
-.modal-close
-  background-color: #a7a5a5
   color: white
+  background-color: rgb(31,127,215)
+  font-weight: bold
+.modal-close
+  background-color: rgb(23,188,160) !important
+  color: white !important
 
+
+//Settings Modal Styling
+.modal-settings-title
+  display: flex
+  justify-content: center
+  align-items: center
+  width: 100%
+  height: 30px
+  background-color: rgb(94,30,177)
+  color: #FAFAFA
+  border-bottom: 1px solid #737373
+.modal-settings-input-group
+  width: 100%
+  height: 169px
+  display: flex
+  flex-direction: column
+  justify-content: center
+  align-items: center
+  div
+    display: flex
+    width: 100%
+    input
+      width: 200px
+      height: 20px
+      outline: none
+      padding-left: 5px
+      background: none
+      border: none
+      color: #545454
+      background-color: #f0f0f0
+      font-family: "Fira sans"
+      transform: translateX(-65px)
+    .modal-input-label
+      display: flex
+      margin-left: 55px
+      align-items: center
+      width: 150px
+      font-size: 0.8em
+      
+.modal-settings-input
+  
+
+.modal-settings-btn-group
+  width: 100%
+  height: 25px
+  display: flex
+  justify-content: flex-end
+  align-items: center
+.modal-settings-btn
+  width: 50%
+  height: 100%
+  outline: none
+  border: none
+  cursor: pointer
+  color: white
+  font-weight: bold
+  background-color: rgb(31,127,215)
 
 ::-webkit-scrollbar
   width: 5px

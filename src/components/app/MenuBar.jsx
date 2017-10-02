@@ -16,7 +16,7 @@ const customStyles = {
     marginRight           : '-50%',
     transform             : 'translate(-50%, -50%)',
     width: '400px',
-    height: '300px',
+    height: '225px',
     fontFamily: 'Fira sans',
     padding: '0',
     border: 'none'
@@ -125,20 +125,36 @@ class MenuBar extends Component {
                   onRequestClose={this.closeModal.bind(this)}
                   style={customStyles}
                   contentLabel="Example Modal">
-                  <form className="bc-settings-form">
-                    <div>Profile Settings</div>
-                    <br/>
-                    <input className="bc-settings-input" type="text" placeholder={(Object.keys(this.props.auth.user)).length <= 1 ? "First Name" : "First Name -" + this.props.auth.user.firstName} ref="firstname"/>
-                    <input className="bc-settings-input" type="text" placeholder={(Object.keys(this.props.auth.user)).length <= 1 ? "Last Name" : "Last Name -" + this.props.auth.user.lastName} ref="lastname"/>
-                    <input className="bc-settings-input" type="text" placeholder={(Object.keys(this.props.auth.user)).length <= 1 ? "Location" : "Location -" + this.props.auth.user.location} ref="location"/>
+                  <form>
+                    <div className="modal-settings-title">Profile Settings</div>
+                    <div className="modal-settings-input-group">
+                      <div>
+                        <div className="modal-input-label">First Name:</div>
+                        <input className="modal-settings-input" type="text" placeholder={(Object.keys(this.props.auth.user)).length <= 1 ? "First Name" : this.props.auth.user.firstName} ref="firstname"/>
+                      </div>
                       <br/>
-                      {
+                      <div>
+                      <div className="modal-input-label">Last Name:</div>
+                      <input className="modal-settings-input" type="text" placeholder={(Object.keys(this.props.auth.user)).length <= 1 ? "Last Name" : this.props.auth.user.lastName} ref="lastname"/>
+                      </div>
+                      <br/>
+                      <div>
+                      <div className="modal-input-label">Location:</div>
+                      <input className="modal-settings-input" type="text" placeholder={(Object.keys(this.props.auth.user)).length <= 1 ? "Location" : this.props.auth.user.location} ref="location"/>
+                      </div>
+                      
+                    </div>
+                    
+                     <div className="modal-settings-btn-group">
+                     {
                         this.props.settings.saveSettings ?
-                        <button onClick={(e)=>e.preventDefault()}><i className="fa fa-spinner fa-pulse"></i></button> :
-                        <button onClick={this.saveSettings.bind(this)}>Save</button>
+                        <button className="modal-settings-btn" onClick={(e)=>e.preventDefault()}><i className="fa fa-spinner fa-pulse"></i></button> :
+                        <button className="modal-settings-btn" onClick={this.saveSettings.bind(this)}>Save & Exit</button>
                         
                       }
-                      <button onClick={this.closeModal.bind(this)}>Close</button>
+                      <button className="modal-settings-btn modal-close" onClick={this.closeModal.bind(this)}>Close</button>
+                     </div> 
+                      
                   </form>
               </Modal>
 

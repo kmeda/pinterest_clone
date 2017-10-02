@@ -82,7 +82,8 @@ module.exports = function(app) {
       return next();
 }, Authentication.generateToken, Authentication.sendToken);
 
-  
+app.get('/usename_check', updateUser.checkUsername);
+
 app.post('/update_user', requireAuth, updateUser.update);
 
 app.get('/get_user', requireAuth, updateUser.fetchUser);

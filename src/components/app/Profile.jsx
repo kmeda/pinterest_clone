@@ -108,9 +108,6 @@ class Profile extends Component {
       this.setState({modalIsOpen: false});
       return;
     }
-
-
-    
     
   }
 //http://orig13.deviantart.net/d632/f/2014/325/9/c/9c2f55cab2a77d16b3aad1e7cb2a997b-d87525z.jpg
@@ -172,8 +169,8 @@ class Profile extends Component {
             <br/>
             <br/>
             <div className="modal-button-group">
-              <button className="modal-input-btn" onClick={this.handleImageAdd.bind(this)}>Ok</button>
-              <button className= "modal-input-btn modal-close" onClick={this.closeModal.bind(this)}>Cancel</button>
+              <button className="modal-input-btn" onClick={this.handleImageAdd.bind(this)}>Save & Exit</button>
+              <button className= "modal-input-btn modal-close" onClick={this.closeModal.bind(this)}>Close</button>
             </div>
             
           </form>

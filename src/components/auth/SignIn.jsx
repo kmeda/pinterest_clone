@@ -100,18 +100,18 @@ class SignIn extends Component {
 
             <div className="bc-form-container">
             <form>
-                <fieldset className="bc-input-style">
+                <fieldset>
                   {this.props.auth.signIn.noEmail ? <p className='bc-input-error'>Email Required</p> : null}
-                  <input placeholder="Email" ref="username"
+                  <input placeholder="Email" ref="username" className="bc-input-style"
                          onChange={this.handleInputChange.bind(this)} />
                 </fieldset>
 
                 <br/>
 
-                <fieldset className="bc-input-style">
+                <fieldset>
                     {this.props.auth.signIn.invalidCredentials ? <p className='bc-auth-error'>{this.props.auth.signIn.invalidCredentials}</p> : null}
                     {this.props.auth.signIn.noPassword ? <p className='bc-input-error'>Password Required</p> : null}
-                    <input placeholder="Password" type="password" ref="password" />
+                    <input placeholder="Password"  className="bc-input-style" type="password" ref="password" />
                 </fieldset>
 
                 <br/>
