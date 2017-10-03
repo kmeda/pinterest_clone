@@ -74,7 +74,7 @@ exports.fetchAllMints = (req, res, next) => {
 
   User.find({}).then((results)=>{
     var mints = results.map((each)=> {
-      if (each.mints.length > 0) {
+      if (typeof(each.mints) !== undefined) {
         return each.mints;
       }
     });
