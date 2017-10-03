@@ -29,21 +29,6 @@ class SignUp extends Component {
     var email = _.trim(this.refs.email.value);
     var password = this.refs.password.value;
 
-    
-    
-
-    // Add inputs for new fields
-    // Validation logic
-    // Redo error styling using refs styles
-    // Update server side code to save new fields
-    // Update settings modal to have placeholders appropriately
-    // Continue to code the app functionality
-      // Check for image validity onChange - Report error
-      // Post valid links to database
-      // On fetch check url for broken images - use place holders
-      // Add controls for each image to like/unlike, delete, user, remint - Using Sockets
-
-
     if (email === '' || password === '' || username === '' || fullname === '') {
       if (email === '') {
         dispatch(actions.emailErrorMsg(true));
@@ -75,10 +60,8 @@ class SignUp extends Component {
     
     var credentials = {username, fullname, email, password};
 
-    console.log(credentials);
-
     if (auth.signUp.emailValid && auth.signUp.passwordValid && auth.signUp.usernameValid && auth.signUp.fullnameValid) {
-      console.log("TEST");
+      
       dispatch(actions.serverUnreachable(false));
       dispatch(actions.startSignUp(credentials));
     }
@@ -86,13 +69,13 @@ class SignUp extends Component {
   }
 
   handleFieldChange(){
-    var {dispatch} = this.props;
+    var {dispatch, auth} = this.props;
     var username = _.trim(this.refs.username.value);
     var fullname = _.trim(this.refs.fullname.value);
     var email = _.trim(this.refs.email.value);
     var password = this.refs.password.value;
 
-    if(username !== '' && (/^[a-z\d](?:[a-z\d]|-(?=[a-z\d])){0,38}$/i.test(username))){
+    if(username !== '' && (/^[a-z\d](?:[a-z\d]|-(?=[a-z\d])){0,38}$/i.test(username)) && auth.signUp.usernameCheck){
       dispatch(actions.checkUsernameExists(username));
     }
 
@@ -120,10 +103,17 @@ class SignUp extends Component {
 
   }
 
-  handleUsernameValidity(){
+  handleusernameCheck(){
     var {dispatch} = this.props;
+    dispatch(actions.usernameCheck(true));
+  }
+
+  handleUsernameValidity(){
+    var {dispatch, auth} = this.props;
     var username = this.refs.username.value;
     //post username to server api and get response back
+    dispatch(actions.usernameCheck(false));
+
     if (username.length === 0) {
       dispatch(actions.usernameErrorMsg(false));
       dispatch(actions.usernameValid(false));
@@ -142,6 +132,10 @@ class SignUp extends Component {
       dispatch(actions.usernameValid(true));
       dispatch(actions.usernameInValid(false));
       this.refs.username.style.border = 'none';
+    }
+
+    if(auth.signUp.usernameInUse){
+      dispatch(actions.usernameValid(false));
     }
   }
 
@@ -263,10 +257,11 @@ class SignUp extends Component {
                   {this.props.auth.signUp.noUsername ? <p className='bc-input-error'>Required</p> : null}
                   {this.props.auth.signUp.usernameInValid ? <p className='bc-input-error'>Invalid Username</p> : null}
                   {this.props.auth.signUp.usernameValid ? <i className="fa fa-check bc-input-username-valid"></i> : null}
-                  {this.props.auth.signUp.usernameInUse ? <p className='bc-input-error'>userid already exists</p> : null}
+                  {this.props.auth.signUp.usernameInUse ? <p className='bc-input-error'>Username already exists</p> : null}
                   <input placeholder="User Id" ref='username' className="bc-input-username"
                          onChange={_.debounce(this.handleFieldChange.bind(this), 250)}
-                         onBlur={this.handleUsernameValidity.bind(this)} />
+                         onBlur={this.handleUsernameValidity.bind(this)}
+                         onFocus={this.handleusernameCheck.bind(this)} />
                 </fieldset>
 
                 <fieldset>

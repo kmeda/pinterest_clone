@@ -17,10 +17,14 @@
       height: 40px
       width: 70%
       .bc-fcclogo
-        margin-top: 5px
-        margin-left: 15px
+        margin-left: 10px
         color: green
-        font-size: 1.8em
+        border-radius: 50%
+        font-size: 1.6em
+        background-color: #e8e8e8
+        padding: 5px 5px
+        box-shadow: 0 1px 2px rgba(34, 25, 25, 0.4)
+    
     .links-container
       display: flex
       justify-content: center
@@ -41,7 +45,7 @@
         padding: 1px 15px
         border-radius: 25px
         &:hover
-          background-color: rgba(0,0,0,0.1)  
+          background-color: rgba(0,0,0,0.1)
       .bc-mymints-active, .bc-allmints-active
         color: #373737 !important
         font-weight: bold
@@ -64,17 +68,15 @@
           width: 100%
           height: 100%
           transition: all .3s ease-in-out
-          // z-index: 99=]r
           &:hover
             transform: translateX(6px)
   .bc-mints-wrapper
-    width: 95%;
+    width: 95%
     min-width: 400px
     margin: 50px auto
     .bc-add-mint
       width: 200px
       height: 100px
-      border: 1px solid grey
       border: 2px solid #FAFAFA
       margin-left: 10px
       box-shadow: 0 1px 2px rgba(34, 25, 25, 0.4)
@@ -93,7 +95,7 @@
         border-radius: 50%
         width: 50px
         height: 50px
-        box-shadow: 0 0 10px rgba(34, 25, 25, 0.6), 0 0 10px rgba(34, 25, 25, 0.6) 
+        box-shadow: 0 0 10px rgba(34, 25, 25, 0.6), 0 0 10px rgba(34, 25, 25, 0.6)
         transform: translate(120px, -75px)
         background-color: #bd081c
         color: white
@@ -112,15 +114,15 @@
         color: #b6b6b6
         transform: translate(110px, -22px)
     .bc-mints-columns
-      -webkit-column-count: 2;
-      -webkit-column-gap: 10px;
-      -webkit-column-fill: auto;
-      -moz-column-count: 2;
-      -moz-column-gap: 10px;
-      column-count: 2;
-      column-gap: 15px;
-      column-fill: auto;
-      
+      -webkit-column-count: 2
+      -webkit-column-gap: 10px
+      -webkit-column-fill: auto
+      -moz-column-count: 2
+      -moz-column-gap: 10px
+      column-count: 2
+      column-gap: 15px
+      column-fill: auto
+
       .bc-img-grid
         display: inline-block
         background: #FEFEFE
@@ -141,7 +143,7 @@
         -moz-transition: all .2s ease-in-out
         -o-transition: all .2s ease-in-out
         transition: all .2s ease-in-out
-           
+
         img
           width: 100%
           margin-bottom: 5px
@@ -167,19 +169,33 @@
             width: 100%
             margin-top: 10px
             .bc-mint-username
-              width: 65%
+              width: 60%
               font-size: 0.8em
               text-decoration: underline
               padding-left: 15px
-              i              
+              // background-color: pink
+              .bc-mint-username-link
                 cursor: pointer
+              .bc-mint-username-link-disabled
+                cursor: default
             .bc-mint-like
-              width: 35%
+              width: 30%
               font-size: 0.85em
-              margin-top: 5px
-              i              
+              // background-color: yellow
+              .bc-heart-disabled
+                margin-right: 3px
+              .bc-heart
                 cursor: pointer
-              
+                margin-right: 3px
+              .bc-heart-liked
+                color: red
+            .bc-mint-delete
+              // background-color: green
+              width: 10%
+              .bc-delete
+                cursor: pointer
+                margin-left: 5px
+
 @media (min-width: 560px)
 	.bc-mints-columns
 		-webkit-column-count: 3 !important
@@ -243,10 +259,11 @@
   width: 100%
   height: 35px
   font-size: 1.2em
-  color: #FAFAFA
-  background-color: rgb(94,30,177)
+  color: #d2d1d1
+  // background-color: rgb(94,30,177)
+  background: -webkit-linear-gradient(90deg, rgb(74, 12, 154), rgb(94,30,177))
   border-bottom: 1px solid #737373
-  
+
 .modal-button-group
   width: 100%
   height: 30px
@@ -275,7 +292,7 @@
   align-items: center
   width: 100%
   height: 30px
-  background-color: rgb(94,30,177)
+  background: -webkit-linear-gradient(90deg, rgb(74, 12, 154), rgb(94,30,177))
   color: #FAFAFA
   border-bottom: 1px solid #737373
 .modal-settings-input-group
@@ -305,9 +322,9 @@
       align-items: center
       width: 150px
       font-size: 0.8em
-      
+
 .modal-settings-input
-  
+
 
 .modal-settings-btn-group
   width: 100%

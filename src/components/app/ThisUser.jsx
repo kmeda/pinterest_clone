@@ -1,6 +1,5 @@
 import MenuBar from './MenuBar.jsx';
 import React,{Component} from 'react';
-import {BrowserRouter as Redirect, Router, Route, Switch, Link} from 'react-router-dom';
 import * as Redux from "react-redux";
 import { push } from 'react-router-redux';
 
@@ -16,13 +15,15 @@ const socket = openSocket(socket_url);
 
 var actions = require('../../actions/actions.js');
 
-class AllMints extends Component {
+class ThisUser extends Component {
   constructor(props){
     super(props);
-    this.state = { setClass: null, mint_id: false };
+    this.state = { setClass: null, hover: false };
 
-    socket.on('fetch_all_mints', ()=> {
-      this.props.dispatch(actions.fetchAllMints());
+    socket.on('fetch_this_user_mints', ()=>{
+      var {dispatch} = this.props;
+      var username = this.props.match.params.userid;
+      dispatch(actions.fetchThisUserMints(username));
     });
 
   }
@@ -30,7 +31,8 @@ class AllMints extends Component {
 
   componentWillMount(){
     var {dispatch} = this.props;
-    dispatch(actions.fetchAllMints());
+    var username = this.props.match.params.userid
+    dispatch(actions.fetchThisUserMints(username));
   }
 
   componentDidMount(){
@@ -62,12 +64,12 @@ class AllMints extends Component {
 
   render(){
 
-    var allMints = this.props.mints.allMints;
-        allMints = allMints.sort((a,b) => {
+    var thisUserMints = this.props.mints.thisUserMints;
+        thisUserMints = thisUserMints.sort((a,b) => {
           return b.timestamp - a.timestamp;
         });
 
-    var childElementsUnauth = allMints.map((item, index) => {
+    var childElementsUnauth = thisUserMints.map((item, index) => {
       return (
            <div key={index} className="bc-img-grid">
                <img src={item.url} />
@@ -75,7 +77,7 @@ class AllMints extends Component {
                   <div className="bc-mint-title">{item.title}</div>
                   <div className="bc-mint-user-likes">
                     <div className="bc-mint-username">
-                      <Link to={`/user/${item.username}`}><i className="bc-mint-username-link">{item.username}</i></Link>
+                      <i className="bc-mint-username-link-disabled">{item.username}</i>
                     </div>
                     <div className="bc-mint-like">
                       <i
@@ -104,7 +106,7 @@ class AllMints extends Component {
       )
     }
 
-    var childElements = allMints.map((item, index) => {
+    var childElements = thisUserMints.map((item, index) => {
       return (
            <div key={index} className="bc-img-grid">
                <img src={item.url} />
@@ -112,7 +114,7 @@ class AllMints extends Component {
                   <div className="bc-mint-title">{item.title}</div>
                   <div className="bc-mint-user-likes">
                     <div className="bc-mint-username">
-                      <Link to={`/user/${item.username}`}><i className="bc-mint-username-link">{item.username}</i></Link>
+                      <i className="bc-mint-username-link-disabled">{item.username}</i>
                     </div>
                     <div className="bc-mint-like">
                       {
@@ -132,6 +134,20 @@ class AllMints extends Component {
    });
 
 
+  //   var childElements = this.props.mints.thisUserMints.map((item, index) => {
+  //     return (
+  //          <div key={index} className="bc-img-grid">
+  //              <img src={item.url} />
+  //              <div className="bc-mint-attr">
+  //                 <div className="bc-mint-title">{item.title}</div>
+  //                 <div className="bc-mint-user-likes">
+  //                   <div className="bc-mint-username"><i>{item.username}</i></div>
+  //                   <div className="bc-mint-like"><i className="bc-heart fa fa-heart" onClick={this.handleLike.bind(this, item.uid)}></i> <span>{item.likes.length}</span></div>
+  //                 </div>
+  //              </div>
+  //          </div>
+  //      );
+  //  });
 
     return (
       <div className="bc-outer-wrapper">
@@ -154,4 +170,4 @@ export default Redux.connect(
       mints: state.mints
     }
   }
-)(AllMints);
+)(ThisUser);

@@ -34,8 +34,7 @@ class MenuBar extends Component {
   componentWillMount(){
     var {dispatch, auth} = this.props;
     if (auth.authenticated && !auth.user) {
-      var email = localStorage.getItem("email");
-      dispatch(actions.fetchUserDetails(email));
+      dispatch(actions.fetchUserDetails());
     }
   }
 
@@ -49,11 +48,11 @@ class MenuBar extends Component {
   openModal() {
     this.setState({modalIsOpen: true});
   }
- 
+
   afterOpenModal() {
-        
+
   }
- 
+
   closeModal() {
     this.setState({modalIsOpen: false});
   }
@@ -62,10 +61,10 @@ class MenuBar extends Component {
     e.preventDefault();
     var {dispatch, auth} = this.props;
 
-    var email = localStorage.getItem("email");
-    var firstName = _.trim(this.refs.firstname.value);
-    var lastName = _.trim(this.refs.lastname.value);
-    var location = _.trim(this.refs.location.value);
+    var email = auth.user.email;
+    var firstName = _.trim(this.refs.firstname.value) || auth.user.firstName || '';
+    var lastName = _.trim(this.refs.lastname.value) || auth.user.lastName || '';
+    var location = _.trim(this.refs.location.value) || auth.user.location || '';
 
     if (firstName === '' || lastName === '' || location === '') {
       return;
@@ -79,6 +78,7 @@ class MenuBar extends Component {
     localStorage.removeItem('token');
     localStorage.removeItem('email');
     dispatch(actions.nukeAuthData());
+    dispatch(actions.nukeMyMints());
     dispatch(push('/'));
   }
 
@@ -111,10 +111,10 @@ class MenuBar extends Component {
               <Link to="/profile">
                 <div className={this.props.myMintsActive + " bc-profile"}>
                   <i className="bc-user-icon fa fa-user-circle" aria-hidden="true"></i>
-                  {(Object.keys(this.props.auth.user)).length <= 1 ? "Profile" : this.props.auth.user.firstName }
+                  { this.props.auth.user.firstName }
                 </div>
               </Link>
-              
+
               <div className="bc-settings" onClick={this.openModal.bind(this)}>
                 <i className="fa fa-cog" aria-hidden="true" ></i>
               </div>
@@ -142,19 +142,19 @@ class MenuBar extends Component {
                       <div className="modal-input-label">Location:</div>
                       <input className="modal-settings-input" type="text" placeholder={(Object.keys(this.props.auth.user)).length <= 1 ? "Location" : this.props.auth.user.location} ref="location"/>
                       </div>
-                      
+
                     </div>
-                    
+
                      <div className="modal-settings-btn-group">
                      {
                         this.props.settings.saveSettings ?
                         <button className="modal-settings-btn" onClick={(e)=>e.preventDefault()}><i className="fa fa-spinner fa-pulse"></i></button> :
-                        <button className="modal-settings-btn" onClick={this.saveSettings.bind(this)}>Save & Exit</button>
-                        
+                        <button className="modal-settings-btn" onClick={this.saveSettings.bind(this)}>Save</button>
+
                       }
                       <button className="modal-settings-btn modal-close" onClick={this.closeModal.bind(this)}>Close</button>
-                     </div> 
-                      
+                     </div>
+
                   </form>
               </Modal>
 

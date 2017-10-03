@@ -55,6 +55,13 @@ export var authReducer = (state={signIn: '', signUp: ''}, action) => {
           usernameInUse: action.flag
       }
     }
+    case "STOP_USERNAME_CHECK":
+      return {
+        ...state,
+        signUp: { ...state.signUp,
+          usernameCheck: action.flag
+      }
+      }
 
       case "FULLNAME_ERROR_MSG":
       return {
@@ -99,7 +106,7 @@ export var authReducer = (state={signIn: '', signUp: ''}, action) => {
           emailInValid: action.flag
         }
       };
-   
+
     case "PASSWORD_ERROR_MSG":
       return {
         ...state,
@@ -177,12 +184,27 @@ export var settingsReducer = (state={showSettings: false}, action) => {
   }
 }
 
-export var mintsReducer = (state={}, action) => {
+export var mintsReducer = (state={myMints: [], allMints: [], thisUserMints: []}, action) => {
   switch (action.type) {
     case "SET_MY_MINTS":
       return {
         ...state,
         myMints: action.payload
+      }
+    case "SET_ALL_MINTS":
+      return {
+        ...state,
+        allMints: action.payload
+      }
+    case "SET_THIS_USER_MINTS":
+      return {
+        ...state,
+        thisUserMints: action.payload
+      }
+    case "NUKE_MY_MINTS":
+      return {
+        ...state,
+        myMints: []
       }
     default:
       return state;

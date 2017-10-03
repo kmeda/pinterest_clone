@@ -8,6 +8,7 @@ import SignIn from './components/auth/SignIn.jsx';
 import SignUp from './components/auth/SignUp.jsx';
 import Profile from './components/app/Profile.jsx';
 import AllMints from './components/app/AllMints.jsx';
+import ThisUser from './components/app/ThisUser.jsx';
 
 import * as actions from './actions/actions.js';
 
@@ -19,20 +20,9 @@ import createHistory from 'history/createBrowserHistory';
 import { ConnectedRouter, routerReducer, routerMiddleware, push } from 'react-router-redux';
 
 
-// Open Socket Connection to server____________________________________ //
-import openSocket from 'socket.io-client';
-
-if (process.env.NODE_ENV === 'production') {
-  var socket_url = 'https://fcc-minterest.herokuapp.com';
-} else {
-  var socket_url = 'http://localhost:3050';
-}
-export const socket = openSocket(socket_url);
-// ____________________________________________________________________ //
-
 
 // Configure Redux Store ______________________________________________ //
-import {  authReducer, settingsReducer } from './reducers/reducers.js';
+import {  authReducer, settingsReducer, mintsReducer } from './reducers/reducers.js';
 
 const history = createHistory();
 const middleware = routerMiddleware(history);
@@ -41,6 +31,7 @@ const store = Redux.createStore(
   Redux.combineReducers({
     auth: authReducer,
     settings: settingsReducer,
+    mints: mintsReducer,
     router: routerReducer
   }),
   Redux.compose(
@@ -61,7 +52,8 @@ ReactDOM.render(
     <Provider store={store}>
       <Router history={history}>
         <Switch>
-        <Route exact path="/" component={AllMints}/>
+          <Route exact path="/" component={AllMints}/>
+          <Route path="/user/:userid" component={ThisUser}/>
           <Route exact path="/profile" component={RequireAuth(Profile)}/>
           <Route exact path="/signup" component={SignUp}/>
           <Route exact path="/signin" component={SignIn}/>

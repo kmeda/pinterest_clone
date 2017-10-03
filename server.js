@@ -24,7 +24,7 @@ if (process.env.NODE_ENV === "production") {
 app.use(session({
   resave: false,
   saveUninitialized: true,
-  secret: process.env.SECRET || secret 
+  secret: process.env.SECRET || secret
 }));
 
 var io = require('socket.io').listen(app.listen(PORT));
@@ -44,7 +44,29 @@ io.sockets.on('connection', function (socket) {
 
   console.log('client connected');
 
-    // Setup events here 
+    // Setup events here
+
+    socket.on('on_add_mint', ()=>{
+      io.emit('fetch_all_mints');
+    });
+
+    socket.on('on_delete_mint', ()=>{
+      io.emit('fetch_all_mints');
+    });
+
+    socket.on('on_user_liked', ()=>{
+      io.emit('fetch_all_mints');
+      io.emit('fetch_my_mints');
+      io.emit('fetch_this_user_mints');
+    });
+
+    socket.on('on_user_disliked', ()=>{
+      io.emit('fetch_all_mints');
+      io.emit('fetch_my_mints');
+      io.emit('fetch_this_user_mints');
+    });
+
+
 });
 
 Router(app);

@@ -10,7 +10,7 @@ const userSchema = new Schema({
    firstName: String,
    lastName: String,
    location: String,
-   username: String,
+   username: {type: String, unique: true, lowercase: true},
    mints: [],
    twitterProvider: {
       type: {

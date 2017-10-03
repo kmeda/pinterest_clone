@@ -39,15 +39,15 @@ module.exports = function(app) {
       }
 
       var jsonStr = '{ "' + body.replace(/&/g, '", "').replace(/=/g, '": "') + '"}';
-      
+
       res.send(JSON.parse(jsonStr));
     });
   });
 
 
-  
+
   app.post('/auth/twitter', (req, res, next) => {
-    
+
     request.post({
       url: `https://api.twitter.com/oauth/access_token?oauth_verifier`,
       oauth: {
@@ -83,10 +83,15 @@ module.exports = function(app) {
 }, Authentication.generateToken, Authentication.sendToken);
 
 app.get('/usename_check', updateUser.checkUsername);
-
 app.post('/update_user', requireAuth, updateUser.update);
-
 app.get('/get_user', requireAuth, updateUser.fetchUser);
+app.post('/save_mints', requireAuth, updateUser.saveMints);
+app.get('/get_my_mints', requireAuth, updateUser.fetchMyMints);
+app.get('/get_all_mints', updateUser.fetchAllMints);
+app.post('/delete_mint', requireAuth, updateUser.deleteMint);
+app.get('/get_this_user_mints', updateUser.thisUserMints);
+app.post('/add_like', requireAuth, updateUser.addLike);
+app.post('/remove_like', requireAuth, updateUser.removeLike);
 
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'dist/index.html'));
