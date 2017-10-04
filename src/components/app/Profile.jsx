@@ -3,6 +3,7 @@ import * as Redux from "react-redux";
 import Modal from 'react-modal';
 import _ from 'lodash';
 import MenuBar from './MenuBar.jsx';
+import imagePlaceholder from '../../assets/no-image-available.png';
 
 import openSocket from 'socket.io-client';
 
@@ -98,24 +99,20 @@ class Profile extends Component {
     var title = this.refs.imageTitle.value;
     var imageURL = this.refs.imagePreview.value;
 
-    if (_.trim(title).length <=0 && _.trim(imageURL).length <= 0) {
-      this.refs.imagePreview.style.border = '1px solid #D50000';
-      this.refs.imageTitle.style.border = '1px solid #D50000';
+    if (_.trim(title).length <=0 || _.trim(imageURL).length <= 0 || _.trim(imageURL).match(/\.(jpeg|jpg|gif|png)$/) === null){
+      if (_.trim(title).length <=0) {
+        this.refs.imageTitle.style.border = '1px solid #D50000';
+      }
+      if (_.trim(imageURL).length <= 0 || _.trim(imageURL).match(/\.(jpeg|jpg|gif|png)$/) === null) {
+        this.refs.imagePreview.style.border = '1px solid #D50000';
+      }
+
     }
 
-    if (_.trim(title).length >=0 && _.trim(imageURL).length <= 0) {
-      this.refs.imagePreview.style.border = '1px solid #D50000';
-    }
-
-    if (_.trim(title).length <=0 && _.trim(imageURL).length > 0) {
-      this.refs.imageTitle.style.border = '1px solid #D50000';
-    }
-
-    if (_.trim(title).length > 0 && _.trim(imageURL).length > 0) {
+    if (_.trim(title).length > 0 && _.trim(imageURL).match(/\.(jpeg|jpg|gif|png)$/) !== null) {
       var payload = {title, imageURL};
       console.log(payload);
       dispatch(actions.saveMintToDB(payload));
-
       this.setState({modalIsOpen: false});
       return;
     }
@@ -125,6 +122,10 @@ class Profile extends Component {
   handleDeleteMint(uid){
     var {dispatch} = this.props;
       dispatch(actions.deleteMint(uid));
+  }
+
+  imgError(e){
+    e.target.src= imagePlaceholder;
   }
 
   render(){
@@ -137,7 +138,7 @@ class Profile extends Component {
     var childElements = myMints.map((item, index) => {
       return (
            <div key={index} className="bc-img-grid">
-               <img src={item.url} />
+               <img src={item.url} onError={this.imgError.bind(this)}/>
                <div className="bc-mint-attr">
                   <div className="bc-mint-title">{item.title}</div>
                   <div className="bc-mint-user-likes">

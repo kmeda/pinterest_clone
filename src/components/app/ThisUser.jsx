@@ -61,6 +61,10 @@ class ThisUser extends Component {
     }
   }
 
+  imgError(e){
+    e.target.src= e.target.src= this.props.placeholder;;
+  }
+
 
   render(){
 
@@ -72,7 +76,7 @@ class ThisUser extends Component {
     var childElementsUnauth = thisUserMints.map((item, index) => {
       return (
            <div key={index} className="bc-img-grid">
-               <img src={item.url} />
+               <img src={item.url} onError={this.imgError.bind(this)}/>
                <div className="bc-mint-attr">
                   <div className="bc-mint-title">{item.title}</div>
                   <div className="bc-mint-user-likes">
@@ -109,7 +113,7 @@ class ThisUser extends Component {
     var childElements = thisUserMints.map((item, index) => {
       return (
            <div key={index} className="bc-img-grid">
-               <img src={item.url} />
+               <img src={item.url} onError={this.imgError.bind(this)}/>
                <div className="bc-mint-attr">
                   <div className="bc-mint-title">{item.title}</div>
                   <div className="bc-mint-user-likes">
@@ -132,22 +136,6 @@ class ThisUser extends Component {
            </div>
        );
    });
-
-
-  //   var childElements = this.props.mints.thisUserMints.map((item, index) => {
-  //     return (
-  //          <div key={index} className="bc-img-grid">
-  //              <img src={item.url} />
-  //              <div className="bc-mint-attr">
-  //                 <div className="bc-mint-title">{item.title}</div>
-  //                 <div className="bc-mint-user-likes">
-  //                   <div className="bc-mint-username"><i>{item.username}</i></div>
-  //                   <div className="bc-mint-like"><i className="bc-heart fa fa-heart" onClick={this.handleLike.bind(this, item.uid)}></i> <span>{item.likes.length}</span></div>
-  //                 </div>
-  //              </div>
-  //          </div>
-  //      );
-  //  });
 
     return (
       <div className="bc-outer-wrapper">

@@ -59,6 +59,9 @@ class AllMints extends Component {
     }
   }
 
+  imgError(e){
+    e.target.src= this.props.placeholder;
+  }
 
   render(){
 
@@ -70,7 +73,7 @@ class AllMints extends Component {
     var childElementsUnauth = allMints.map((item, index) => {
       return (
            <div key={index} className="bc-img-grid">
-               <img src={item.url} />
+               <img src={item.url} onError={this.imgError.bind(this)}/>
                <div className="bc-mint-attr">
                   <div className="bc-mint-title">{item.title}</div>
                   <div className="bc-mint-user-likes">
@@ -107,7 +110,7 @@ class AllMints extends Component {
     var childElements = allMints.map((item, index) => {
       return (
            <div key={index} className="bc-img-grid">
-               <img src={item.url} />
+               <img src={item.url} onError={this.imgError.bind(this)}/>
                <div className="bc-mint-attr">
                   <div className="bc-mint-title">{item.title}</div>
                   <div className="bc-mint-user-likes">

@@ -14,6 +14,8 @@ import * as actions from './actions/actions.js';
 
 import '../styles/main.scss';
 
+import imagePlaceholder from './assets/no-image-available.png';
+
 import * as Redux from 'redux';
 import thunk from 'redux-thunk';
 import createHistory from 'history/createBrowserHistory';
@@ -52,8 +54,8 @@ ReactDOM.render(
     <Provider store={store}>
       <Router history={history}>
         <Switch>
-          <Route exact path="/" component={AllMints}/>
-          <Route path="/user/:userid" component={ThisUser}/>
+          <Route exact path="/" render={()=> <AllMints placeholder={imagePlaceholder}/>}/>
+          <Route path="/user/:userid" render={()=> <ThisUser placeholder={imagePlaceholder}/>}/>
           <Route exact path="/profile" component={RequireAuth(Profile)}/>
           <Route exact path="/signup" component={SignUp}/>
           <Route exact path="/signin" component={SignIn}/>
