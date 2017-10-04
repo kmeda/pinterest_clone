@@ -232,10 +232,10 @@ export var startSignUp = (credentials) => {
     axios.post(`${base_url}/signup_user`, JSON.stringify(credentials)).then((res)=>{
 
       if (res.data.token) {
-        localStorage.setItem('email', credentials.email);
         localStorage.setItem('token', res.data.token);
         dispatch(clearErrorMsg());
         dispatch(setAuthenticated(true));
+        dispatch(setUserDetails(res.data.user));
         dispatch(push('/'));
       } else if (res.data.error === "Email is in use") {
         dispatch(signingInUser(false));

@@ -219,13 +219,10 @@ class SignUp extends Component {
   onSuccess = (response) => {
     var {dispatch} = this.props;
     const token = response.headers.get('x-auth-token');
-    console.log(response);
     response.json().then(user => {
       if (token) {
         localStorage.setItem('token', token);
         dispatch(actions.setAuthenticated(true));
-        console.log(user);
-        // dispatch(actions.setUserDetails(response.data.user));
         dispatch(push('/'));
       }
     });
