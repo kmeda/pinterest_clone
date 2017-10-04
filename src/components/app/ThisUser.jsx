@@ -2,7 +2,7 @@ import MenuBar from './MenuBar.jsx';
 import React,{Component} from 'react';
 import * as Redux from "react-redux";
 import { push } from 'react-router-redux';
-
+import imagePlaceholder from '../../assets/no-image-available.png';
 import openSocket from 'socket.io-client';
 
 if (process.env.NODE_ENV === 'production') {
@@ -22,6 +22,7 @@ class ThisUser extends Component {
 
     socket.on('fetch_this_user_mints', ()=>{
       var {dispatch} = this.props;
+
       var username = this.props.match.params.userid;
       dispatch(actions.fetchThisUserMints(username));
     });
@@ -62,7 +63,7 @@ class ThisUser extends Component {
   }
 
   imgError(e){
-    e.target.src= e.target.src= this.props.placeholder;;
+    e.target.src= e.target.src= imagePlaceholder;
   }
 
 

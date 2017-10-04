@@ -366,7 +366,6 @@ export var fetchThisUserMints = (username) => {
 
     axios.get(`${base_url}/get_this_user_mints?username=${username}`).then((res)=>{
       if (res.data) {
-        console.log(res.data);
         dispatch(setThisUserMints(res.data));
       }
 

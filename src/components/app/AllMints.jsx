@@ -3,7 +3,7 @@ import React,{Component} from 'react';
 import {BrowserRouter as Redirect, Router, Route, Switch, Link} from 'react-router-dom';
 import * as Redux from "react-redux";
 import { push } from 'react-router-redux';
-
+import imagePlaceholder from '../../assets/no-image-available.png';
 import openSocket from 'socket.io-client';
 
 if (process.env.NODE_ENV === 'production') {
@@ -60,7 +60,7 @@ class AllMints extends Component {
   }
 
   imgError(e){
-    e.target.src= this.props.placeholder;
+    e.target.src= imagePlaceholder;
   }
 
   render(){

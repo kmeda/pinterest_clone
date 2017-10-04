@@ -54,8 +54,8 @@ ReactDOM.render(
     <Provider store={store}>
       <Router history={history}>
         <Switch>
-          <Route exact path="/" render={()=> <AllMints placeholder={imagePlaceholder}/>}/>
-          <Route path="/user/:userid" render={()=> <ThisUser placeholder={imagePlaceholder}/>}/>
+          <Route exact path="/" component={AllMints}/>
+          <Route path="/user/:userid" component={ThisUser}/>
           <Route exact path="/profile" component={RequireAuth(Profile)}/>
           <Route exact path="/signup" component={SignUp}/>
           <Route exact path="/signin" component={SignIn}/>
