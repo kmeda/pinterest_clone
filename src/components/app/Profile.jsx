@@ -137,6 +137,8 @@ class Profile extends Component {
 
     var childElements = myMints.map((item, index) => {
       return (
+
+
            <div key={index} className="bc-img-grid">
                <img src={item.url} onError={this.imgError.bind(this)}/>
                <div className="bc-mint-attr">
@@ -148,6 +150,7 @@ class Profile extends Component {
                   </div>
                </div>
            </div>
+
        );
    });
 
@@ -166,7 +169,9 @@ class Profile extends Component {
           </div>
           <br/>
           <div className="bc-mints-columns">
+
             {childElements}
+
           <div/>
 
           <Modal

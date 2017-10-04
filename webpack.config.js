@@ -7,7 +7,7 @@ console.log("Current environment - "+process.env.NODE_ENV);
 
 const VENDOR_LIBS = [
   'react', 'redux', 'react-redux', 'react-dom','redux-thunk', 'react-router-dom',
-  'lodash', 'axios'];
+  'lodash', 'axios', 'react-modal', 'socket.io-client', 'react-twitter-auth'];
 
 module.exports = {
   entry: {
