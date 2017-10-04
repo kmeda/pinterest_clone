@@ -224,7 +224,8 @@ class SignUp extends Component {
       if (token) {
         localStorage.setItem('token', token);
         dispatch(actions.setAuthenticated(true));
-        dispatch(actions.setUserDetails(response.data.user));
+        console.log(user);
+        // dispatch(actions.setUserDetails(response.data.user));
         dispatch(push('/'));
       }
     });
