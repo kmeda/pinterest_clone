@@ -54,7 +54,7 @@ userSchema.statics.upsertTwitterUser = function(token, tokenSecret, profile, cb)
       if (!user) {
         var newUser = new that({
           email: profile.emails[0].value,
-          username: profile.username,
+          username: profile.username + "-twitter",
           firstName: profile.displayName,
           twitterProvider: {
             id: profile.id,
