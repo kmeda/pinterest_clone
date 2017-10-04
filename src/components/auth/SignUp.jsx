@@ -3,6 +3,7 @@ import {BrowserRouter as Router, Route, Switch, Link, withRouter} from 'react-ro
 import * as Redux from "react-redux";
 import _ from 'lodash';
 import TwitterLogin from 'react-twitter-auth';
+import { push } from 'react-router-redux';
 
 var actions = require('../../actions/actions.js');
 
@@ -55,13 +56,13 @@ class SignUp extends Component {
       });
     }
     var name = extractName.slice(0,3);
-    
+
     fullname = {firstname: name[0], lastname: name.slice(1,3).join(' ')}
-    
+
     var credentials = {username, fullname, email, password};
 
     if (auth.signUp.emailValid && auth.signUp.passwordValid && auth.signUp.usernameValid && auth.signUp.fullnameValid) {
-      
+
       dispatch(actions.serverUnreachable(false));
       dispatch(actions.startSignUp(credentials));
     }
@@ -221,22 +222,22 @@ class SignUp extends Component {
     console.log(response);
     response.json().then(user => {
       if (token) {
-        dispatch(actions.setAuthenticated(true));
         localStorage.setItem('token', token);
-        localStorage.setItem('email', user.email || '');
+        dispatch(actions.setAuthenticated(true));
+        dispatch(setUserDetails(response.data.user));
         dispatch(push('/'));
       }
     });
   };
-  
+
   onFailed = (error) => {
     alert(error);
   };
-  
+
 
   render(){
 
-    var base_url = process.env.NODE_ENV === 'production' 
+    var base_url = process.env.NODE_ENV === 'production'
                   ? 'https://fcc-minterest.herokuapp.com'
                   : 'http://localhost:3050';
 
@@ -274,9 +275,9 @@ class SignUp extends Component {
                 </fieldset>
 
               </div>
-                
+
                 <br/>
-                
+
 
                 <fieldset>
                   {this.props.auth.signUp.noEmail ? <p className='bc-input-error'>Email Required</p> : null}
@@ -299,7 +300,7 @@ class SignUp extends Component {
                           onChange={this.handleFieldChange.bind(this)}
                           onBlur={this.handlePasswordValidity.bind(this)}/>
                 </fieldset>
-                
+
                 <br/>
 
                 { this.props.auth.signingIn

@@ -45,7 +45,6 @@ userSchema.methods.comparePassword = function(candidatePassword, callback) {
 }
 
 userSchema.statics.upsertTwitterUser = function(token, tokenSecret, profile, cb) {
-  console.log("User Model", profile);
   var that = this;
     return this.findOne({
       'twitterProvider.id': profile.id
@@ -56,6 +55,8 @@ userSchema.statics.upsertTwitterUser = function(token, tokenSecret, profile, cb)
           email: profile.emails[0].value,
           username: profile.username + "-twitter",
           firstName: profile.displayName,
+          location: '',
+          mints: [],
           twitterProvider: {
             id: profile.id,
             token: token,

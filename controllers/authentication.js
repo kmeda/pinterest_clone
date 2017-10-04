@@ -19,15 +19,18 @@ exports.generateToken = function (req, res, next) {
   };
 
 exports.sendToken = function (req, res) {
+  const {username, email, firstName, lastName, location} = req.user;
+  const user = {username, email, firstName, lastName, location};
+
     res.setHeader('x-auth-token', req.token);
-    return res.status(200).send(JSON.stringify(req.user));
+    return res.status(200).send({user});
   };
 
 exports.signin = function(req, res, next) {
     const token = tokenForUser(req.user);
     const {username, email, firstName, lastName, location} = req.user;
     const user = {username, email, firstName, lastName, location};
-    
+
     res.send({token, user});
 }
 
@@ -36,6 +39,7 @@ exports.signup = function(req, res, next){
     const username = req.body.username;
     const firstName = req.body.fullname.firstname;
     const lastName = req.body.fullname.lastname;
+    const location = '';
     const email = req.body.email;
     const password = req.body.password;
 
