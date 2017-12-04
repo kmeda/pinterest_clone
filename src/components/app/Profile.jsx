@@ -164,7 +164,7 @@ class Profile extends Component {
             <div className="bc-minion">
               <img src="https://i.pinimg.com/originals/b5/24/c7/b524c7a54010df6ee096128c78f5d78d.jpg" />
               <div className="bc-add-mints" onClick={this.openModal.bind(this)}><i>+</i></div>
-              <div className="bc-add-mints-text">Save Mint</div>
+              <div className="bc-add-mints-text">Add Image</div>
             </div>
           </div>
           <br/>
@@ -174,38 +174,33 @@ class Profile extends Component {
 
           <div/>
 
-          <Modal
-          isOpen={this.state.modalIsOpen}
-          onAfterOpen={this.afterOpenModal.bind(this)}
-          onRequestClose={this.closeModal.bind(this)}
-          style={customStyles}
-          contentLabel="Example Modal"
-        >
+          <Modal isOpen={this.state.modalIsOpen}
+                  onAfterOpen={this.afterOpenModal.bind(this)}
+                  onRequestClose={this.closeModal.bind(this)}
+                  style={customStyles}
+                  contentLabel="Example Modal" >
 
-          <div className="modal-title" ref="title">Add a new Mint</div>
-          <br/>
-          <div ref= "imgContainer" className="modal-image-container"><img src={this.state.modalImagePreview} alt=" "/></div>
-          <br/>
-          <form>
-            <input className="modal-input" placeholder="Title" onChange={this.handleTitle.bind(this)} ref="imageTitle"/>
-            <i className="modal-link-icon fa fa-header" aria-hidden="true"></i>
-
-            <br/>
-            <br/>
-            <input className="modal-input" placeholder="Image source link" onChange={this.handleImagePreview.bind(this)} ref="imagePreview"/>
-            <i className="modal-link-icon fa fa-link" aria-hidden="true"></i>
-            <br/>
-            <br/>
-            <div className="modal-button-group">
-              <button className="modal-input-btn" onClick={this.handleImageAdd.bind(this)}>Save & Exit</button>
-              <button className= "modal-input-btn modal-close" onClick={this.closeModal.bind(this)}>Close</button>
-            </div>
-
-          </form>
-        </Modal>
-
-      </div>
-      </div>
+            <div className="modal-title" ref="title">Add a new Mint</div>
+              <br/>
+            <div ref= "imgContainer" className="modal-image-container"><img src={this.state.modalImagePreview} alt=" "/></div>
+              <br/>
+            <form>
+              <input className="modal-input" placeholder="Title" onChange={this.handleTitle.bind(this)} ref="imageTitle"/>
+              <i className="modal-link-icon fa fa-header" aria-hidden="true"></i>
+              <br/>
+              <br/>
+              <input className="modal-input" placeholder="Image source link" onChange={this.handleImagePreview.bind(this)} ref="imagePreview"/>
+              <i className="modal-link-icon fa fa-link" aria-hidden="true"></i>
+              <br/>
+              <br/>
+              <div className="modal-button-group">
+                <button className="modal-input-btn" onClick={this.handleImageAdd.bind(this)}>Save & Exit</button>
+                <button className= "modal-input-btn modal-close" onClick={this.closeModal.bind(this)}>Close</button>
+              </div>
+            </form>
+          </Modal>
+          </div>
+        </div>
       </div>
     )
   }
